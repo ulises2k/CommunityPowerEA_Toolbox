@@ -1,4 +1,4 @@
-# Defaults Settings for Production (live) Setting File
+# ToolBox for CP
 #
 # Autor: Ulises Cune (@Ulises2k)
 #
@@ -40,6 +40,16 @@ Function Get-IniFile {
     $ini
 }
 
+function StopProcessNotPermitWriteParam{
+    Param(
+        [string]$nameProcesss
+    )
+    $statusDropBox = Get-Process -Name $nameProcesss -ErrorAction SilentlyContinue
+    if  ($null -ne $statusDropBox) {
+        Stop-Process -Name $nameProcesss
+    }
+}
+
 function Set-OrAddIniValue {
     Param(
         [string]$FilePath,
@@ -47,13 +57,16 @@ function Set-OrAddIniValue {
     )
     $content = Get-Content $FilePath
     $keyValueList.GetEnumerator() | ForEach-Object {
-        if ($content -match "^$($_.Key)\s*=") {
-            $content = $content -replace "^$($_.Key)\s*=(.*)", "$($_.Key)=$($_.Value)"
+        if ($content -match "^$($_.Key)=") {
+            $content = $content -replace "^$($_.Key)=(.*)", "$($_.Key)=$($_.Value)"
         }
         else {
             $content += "$($_.Key)=$($_.Value)"
         }
     }
+
+    StopProcessNotPermitWriteParam -nameProcesss "dropbox"
+
     $content | Set-Content $FilePath
 }
 
@@ -206,6 +219,13 @@ function IndicatorsWithMA {
     $MA_Filter_CloseOn = "MA_Filter_" + $Number + "_CloseOn"
     $MA_Filter_PartialCloseOn = "MA_Filter_" + $Number + "_PartialCloseOn"
 
+    #2.51.(2/5/6/7)(Beta)
+    $MA_Filter_ActivePeriod = "MA_Filter_" + $Number + "_ActivePeriod"
+
+    #2.53
+    $MA_Filter_Reverse = "MA_Filter_" + $Number + "_Reverse"
+    $MA_Filter_UseClosedBars = "MA_Filter_" + $Number + "_UseClosedBars"
+
     Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
         $MA_Filter_Properties     = "===== " + $Name + " #" + $Number + " ====="
         $MA_Filter_Type           = $Filter_Type
@@ -219,12 +239,20 @@ function IndicatorsWithMA {
         $MA_Filter_MartinOn       = "0"
         $MA_Filter_CloseOn        = $Filter_CloseOn
         $MA_Filter_PartialCloseOn = "0"
+        $MA_Filter_ActivePeriod   = "0"
     }
+
+    #2.53
     Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-        VolMA_Properties = "===== Volatility for " + $Name + " #" + $Number + " ====="
-        VolMA_Type       = $VolMA_Type
-        VolMA_TF         = "5"
-        VolMA_Period     = $VolMA_Period
+        $MA_Filter_Reverse        = "false"
+        $MA_Filter_UseClosedBars  = "false"
+    }
+
+    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        VolMA_Properties       = "===== Volatility for " + $Name + " #" + $Number + " ====="
+        VolMA_Type             = $VolMA_Type
+        VolMA_TF               = "5"
+        VolMA_Period           = $VolMA_Period
     }
 }
 
@@ -245,7 +273,7 @@ function MyDefault {
     Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
         BinanceTradeConnector_Settings = "===== Binance ====="
         Expert_Properties              = "===== Expert ====="
-        Expert_Id                      = "252"
+        Expert_Id                      = "253"
         Expert_Comment                 = "CP" + (Get-Date -Format "dd.MM.yyyy.HH:mm")
         Lot_Properties                 = "===== Lot ====="
         Hedge_Properties               = "===== Hedge ====="
@@ -353,7 +381,7 @@ function MyDefault {
         Profit_ShowInPoints    = "true"
         Profit_ShowInPercents  = "true"
         Profit_Aggregate       = "true"
-        ProfitDigitsToShow     = "1"
+        ProfitDigitsToShow     = "2"
         Style_Properties       = "===== Style ====="
         Open_Close_Line_Width  = "1"
         Open_Close_Line_Style  = "2"
@@ -362,7 +390,7 @@ function MyDefault {
         SL_TP_Dashes_Show      = "true"
         SL_TP_Lines_Width      = "0"
         SL_TP_Lines_Style      = "2"
-        Expiration_Width       = "0"
+        Expiration_Width       = "1"
         Expiration_Style       = "2"
         Notifications_Settings = "===== Notifications ====="
         MessagesToGrammy       = "false"
