@@ -40,12 +40,12 @@ Function Get-IniFile {
     $ini
 }
 
-function StopProcessNotPermitWriteParam{
+function StopProcessNotPermitWriteParam {
     Param(
         [string]$nameProcesss
     )
     $statusDropBox = Get-Process -Name $nameProcesss -ErrorAction SilentlyContinue
-    if  ($null -ne $statusDropBox) {
+    if ($null -ne $statusDropBox) {
         Stop-Process -Name $nameProcesss
     }
 }
@@ -111,7 +111,7 @@ function IndicatorIfNotValidOption {
     #If not Enabled, Don't use for open/Don't use for close/Don't use for partial close
     $indyname = $indy + "_" + $EnableTypeMode
     $EnableTypeMode = [string]$inifile[$indyname]
-    if (($EnableTypeMode -eq "0") -or ($EnableTypeMode -eq "false") -or ($EnableTypeMode -eq "0")) {
+    if (($EnableTypeMode -eq "0") -or ($EnableTypeMode -eq "false")) {
         $Indy_Open = $indy + "_OpenOn"
         $Indy_MartinOn = $indy + "_MartinOn"
         $Indy_HedgeOn = $indy + "_HedgeOn"
@@ -208,19 +208,19 @@ function IndicatorsWithMA {
 
     $MA_Filter_Properties = "MA_Filter_" + $Number + "_Properties"
     $MA_Filter_Type = "MA_Filter_" + $Number + "_Type"
-    $MA_Filter_TF = "MA_Filter_" + $Number + "_TF"
+    #$MA_Filter_TF = "MA_Filter_" + $Number + "_TF"
     $MA_Filter_Period = "MA_Filter_" + $Number + "_Period"
     $MA_Filter_Method = "MA_Filter_" + $Number + "_Method"
     $MA_Filter_Price = "MA_Filter_" + $Number + "_Price"
     $MA_Filter_DistType = "MA_Filter_" + $Number + "_DistType"
     $MA_Filter_DistCoef = "MA_Filter_" + $Number + "_DistCoef"
-    $MA_Filter_OpenOn = "MA_Filter_" + $Number + "_OpenOn"
-    $MA_Filter_MartinOn = "MA_Filter_" + $Number + "_MartinOn"
-    $MA_Filter_CloseOn = "MA_Filter_" + $Number + "_CloseOn"
-    $MA_Filter_PartialCloseOn = "MA_Filter_" + $Number + "_PartialCloseOn"
+    #$MA_Filter_OpenOn = "MA_Filter_" + $Number + "_OpenOn"
+    #$MA_Filter_MartinOn = "MA_Filter_" + $Number + "_MartinOn"
+    #$MA_Filter_CloseOn = "MA_Filter_" + $Number + "_CloseOn"
+    #$MA_Filter_PartialCloseOn = "MA_Filter_" + $Number + "_PartialCloseOn"
 
     #2.51.(2/5/6/7)(Beta)
-    $MA_Filter_ActivePeriod = "MA_Filter_" + $Number + "_ActivePeriod"
+    #$MA_Filter_ActivePeriod = "MA_Filter_" + $Number + "_ActivePeriod"
 
     #2.53
     $MA_Filter_Reverse = "MA_Filter_" + $Number + "_Reverse"
@@ -229,30 +229,30 @@ function IndicatorsWithMA {
     Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
         $MA_Filter_Properties     = "===== " + $Name + " #" + $Number + " ====="
         $MA_Filter_Type           = $Filter_Type
-        $MA_Filter_TF             = "5"
+        #$MA_Filter_TF             = "5"
         $MA_Filter_Period         = $Filter_Period
         $MA_Filter_Method         = $Filter_Method
         $MA_Filter_Price          = $Filter_Price
         $MA_Filter_DistType       = $Filter_DistType
         $MA_Filter_DistCoef       = $Filter_DistCoef
-        $MA_Filter_OpenOn         = $Filter_OpenOn
-        $MA_Filter_MartinOn       = "0"
-        $MA_Filter_CloseOn        = $Filter_CloseOn
-        $MA_Filter_PartialCloseOn = "0"
-        $MA_Filter_ActivePeriod   = "0"
+        #$MA_Filter_OpenOn         = $Filter_OpenOn
+        #$MA_Filter_MartinOn       = "0"
+        #$MA_Filter_CloseOn        = $Filter_CloseOn
+        #$MA_Filter_PartialCloseOn = "0"
+        #$MA_Filter_ActivePeriod   = "0"
     }
 
     #2.53
     Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-        $MA_Filter_Reverse        = "false"
-        $MA_Filter_UseClosedBars  = "false"
+        $MA_Filter_Reverse       = "false"
+        $MA_Filter_UseClosedBars = "false"
     }
 
     Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-        VolMA_Properties       = "===== Volatility for " + $Name + " #" + $Number + " ====="
-        VolMA_Type             = $VolMA_Type
-        VolMA_TF               = "5"
-        VolMA_Period           = $VolMA_Period
+        VolMA_Properties = "===== Volatility for " + $Name + " #" + $Number + " ====="
+        VolMA_Type       = $VolMA_Type
+        #VolMA_TF         = "5"
+        VolMA_Period     = $VolMA_Period
     }
 }
 
@@ -287,6 +287,7 @@ function MyDefault {
         ActivePeriod_1                 = "===== Active Period 1 ====="
         ActivePeriod_2                 = "===== Active Period 2 ====="
         ActivePeriod_3                 = "===== Active Period 3 ====="
+        ActivePeriod_4                 = "===== Active Period 4 ====="
         Pending_Properties             = "===== Pending entry ====="
         StopLoss_Properties            = "===== Stop Loss ====="
         StopLoss_Global                = "===== Sum Stop Loss (buy + sell) ====="
@@ -337,6 +338,7 @@ function MyDefault {
         FIB2_Properties          = "===== FIBO #2 ====="
         CustomIndy1_Properties   = "===== Custom Indy #1 ====="
         CustomIndy2_Properties   = "===== Custom Indy #2 ====="
+        CustomIndy3_Properties   = "===== Custom Indy #3 ====="
     }
 
     Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
@@ -354,21 +356,21 @@ function MyDefault {
         NextOrder_ColorB           = "65280"
         NextOrder_ColorS           = "255"
         StopLoss_Width             = "2"
-        StopLoss_Style             = "3"
+        StopLoss_Style             = "1"
         StopLoss_ColorB            = "5737262"
         StopLoss_ColorS            = "1993170"
-        BreakEven_Width            = "1"
+        BreakEven_Width            = "2"
         BreakEven_Style            = "0"
         TakeProfit_ColorB          = "65280"
         TakeProfit_ColorS          = "255"
         GUI_Settings               = "===== GUI ====="
         ManageManual               = "true"
-        GUI_Enabled                = "false"
+        GUI_Enabled                = "true"
         ShowOrders_Settings        = "===== Show Orders ====="
         Show_Opened                = "1"
         Show_Closed                = "true"
         TakeProfit_Width           = "2"
-        TakeProfit_Style           = "3"
+        TakeProfit_Style           = "4"
         BreakEven_ColorB           = "3329330"
         BreakEven_ColorS           = "17919"
         MaxHistoryDeals            = "10"
@@ -399,7 +401,6 @@ function MyDefault {
         Optimization_Settings  = "===== Optimization ====="
     }
 
-
     #Read All Setting File parameters
     $inifile = Get-IniFile -FilePath $FilePath
 
@@ -416,6 +417,13 @@ function MyDefault {
         $CustomIndy2_DrawShortName = [string]$inifile["CustomIndy2_DrawShortName"]
         Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
             CustomIndy2_Properties = "===== " + $CustomIndy2_DrawShortName + " ====="
+        }
+    }
+    $CustomIndy3_Type = [int]$inifile["CustomIndy3_Type"]
+    if ($CustomIndy3_Type -ne 0) {
+        $CustomIndy3_DrawShortName = [string]$inifile["CustomIndy3_DrawShortName"]
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            CustomIndy3_Properties = "===== " + $CustomIndy3_DrawShortName + " ====="
         }
     }
 
@@ -947,6 +955,7 @@ function MyDefault {
     IndicatorIfNotValidOption -FilePath $FilePath -indy "FIB2" -EnableTypeMode "Type"
     IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy1" -EnableTypeMode "Type"
     IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy2" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy3" -EnableTypeMode "Type"
 
 
 
@@ -1264,10 +1273,16 @@ function ButtonRename {
         $fileNewName = $fileNewName + "CustomIndy1_" + $CustomIndy1_DrawShortName + "_"
     }
 
-    $CustomIndy2 = [int]$inifile["CustomIndy1_Type"]
+    $CustomIndy2 = [int]$inifile["CustomIndy2_Type"]
     if ($CustomIndy2 -ne 0) {
         $CustomIndy2_DrawShortName = [string]$inifile["CustomIndy2_DrawShortName"]
         $fileNewName = $fileNewName + "CustomIndy2_" + $CustomIndy2_DrawShortName + "_"
+    }
+
+    $CustomIndy3 = [int]$inifile["CustomIndy3_Type"]
+    if ($CustomIndy3 -ne 0) {
+        $CustomIndy3_DrawShortName = [string]$inifile["CustomIndy3_DrawShortName"]
+        $fileNewName = $fileNewName + "CustomIndy3_" + $CustomIndy3_DrawShortName + "_"
     }
 
     $News = [int]$inifile["News_Mode"]
@@ -1290,6 +1305,7 @@ function ButtonRename {
     return [bool]$true, ""
 }
 
+#Cross EMA. 20Fast 50Slow
 function Button2EMACross_1 {
     Param(
         [string]$FilePath
@@ -1319,11 +1335,11 @@ function Button2EMACross_1 {
     return $true
 }
 
+#Cross EMA. 20Fast 50Slow
 function Button2EMACross_2 {
     Param(
         [string]$FilePath
     )
-
 
     Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
         MACD2_Properties      = "===== 2 EMA Cross #2 ====="
@@ -1432,401 +1448,224 @@ function ButtonSTARC {
     return $true
 }
 
-function ButtonCustomIndy_1 {
+#CustomIndy 1, 2, 3
+function ButtonCustomIndy_X {
     Param(
-        [string]$FilePath
+        [string]$FilePath,
+        [string]$Number,
+        [string]$Name
     )
 
     #Buffer Reader For MT5
     #The Buffer Reader will help you to check and export the custom indicators buffers data for your current chart and timeframe.
     #https://www.mql5.com/en/market/product/52964?source=Unknown
 
-    #CustomIndy #1
-    if (!($comboBox1.SelectedIndex -eq "-1")) {
+    $CustomIndy_Label = "CustomIndy" + $Number + "_Label"
+    $CustomIndy_Type = "CustomIndy" + $Number + "_Type"
+    $CustomIndy_TF = "CustomIndy" + $Number + "_TF"
+    $CustomIndy_PathAndName = "CustomIndy" + $Number + "_PathAndName"
+    $CustomIndy_ParametersStr = "CustomIndy" + $Number + "_ParametersStr"
+    $CustomIndy_BufferB = "CustomIndy" + $Number + "_BufferB"
+    $CustomIndy_BufferS = "CustomIndy" + $Number + "_BufferS"
+    $CustomIndy_ColorBufferB = "CustomIndy" + $Number + "_ColorBufferB"
+    $CustomIndy_ColorBufferS = "CustomIndy" + $Number + "_ColorBufferS"
+    $CustomIndy_ColorIndexB = "CustomIndy" + $Number + "_ColorIndexB"
+    $CustomIndy_ColorIndexS = "CustomIndy" + $Number + "_ColorIndexS"
+    $CustomIndy_LevelMaxB = "CustomIndy" + $Number + "_LevelMaxB"
+    $CustomIndy_LevelMinB = "CustomIndy" + $Number + "_LevelMinB"
+    $CustomIndy_LevelMaxS = "CustomIndy" + $Number + "_LevelMaxS"
+    $CustomIndy_LevelMinS = "CustomIndy" + $Number + "_LevelMinS"
+    $CustomIndy_Reverse = "CustomIndy" + $Number + "_Reverse"
+    $CustomIndy_UseClosedBars = "CustomIndy" + $Number + "_UseClosedBars"
+    $CustomIndy_DrawShortName = "CustomIndy" + $Number + "_DrawShortName"
+    $CustomIndy_DrawInSubwindow = "CustomIndy" + $Number + "_DrawInSubwindow"
+    $CustomIndy_AllowNegativeAndZero = "CustomIndy" + $Number + "_AllowNegativeAndZero"
+    $CustomIndy_OpenOn = "CustomIndy" + $Number + "_OpenOn"
+    $CustomIndy_MartinOn = "CustomIndy" + $Number + "_MartinOn"
+    $CustomIndy_HedgeOn = "CustomIndy" + $Number + "_HedgeOn"
+    $CustomIndy_CloseOn = "CustomIndy" + $Number + "_CloseOn"
+    $CustomIndy_PartialCloseOn = "CustomIndy" + $Number + "_PartialCloseOn"
 
-        #SuperTrend
-        #https://www.mql5.com/en/code/576
-        #SetIndexBuffer(0,Filled_a,INDICATOR_DATA);
-        #SetIndexBuffer(1,Filled_b,INDICATOR_DATA);
-        #SetIndexBuffer(2,SuperTrend,INDICATOR_DATA);
-        #SetIndexBuffer(3,ColorBuffer,INDICATOR_COLOR_INDEX);
-        #SetIndexBuffer(4,Atr,INDICATOR_CALCULATIONS);
-        #SetIndexBuffer(5,Up,INDICATOR_CALCULATIONS);
-        #SetIndexBuffer(6,Down,INDICATOR_CALCULATIONS);
-        #SetIndexBuffer(7,Middle,INDICATOR_CALCULATIONS);
-        #SetIndexBuffer(8,trend,INDICATOR_CALCULATIONS);
-        if ($comboBox1.SelectedItem.ToString() -eq "SuperTrend" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy1_Label                = "SuperTrend"
-                CustomIndy1_Type                 = "3"
-                CustomIndy1_TF                   = "5"
-                CustomIndy1_PathAndName          = "supertrend"
-                CustomIndy1_ParametersStr        = "10,3,0"
-                CustomIndy1_BufferB              = "2"
-                CustomIndy1_BufferS              = "2"
-                CustomIndy1_ColorBufferB         = "3"
-                CustomIndy1_ColorBufferS         = "3"
-                CustomIndy1_ColorIndexB          = "0"
-                CustomIndy1_ColorIndexS          = "1"
-                CustomIndy1_LevelMaxB            = "-999"
-                CustomIndy1_LevelMinB            = "-999"
-                CustomIndy1_LevelMaxS            = "-999"
-                CustomIndy1_LevelMinS            = "-999"
-                CustomIndy1_Reverse              = "false"
-                CustomIndy1_UseClosedBars        = "true"
-                CustomIndy1_DrawShortName        = "Supertrend"
-                CustomIndy1_DrawInSubwindow      = "false"
-                CustomIndy1_AllowNegativeAndZero = "true"
-                CustomIndy1_OpenOn               = "1"
-                CustomIndy1_MartinOn             = "0"
-                CustomIndy1_HedgeOn              = "0"
-                CustomIndy1_CloseOn              = "2"
-                CustomIndy1_PartialCloseOn       = "0"
-            }
+    #SuperTrend
+    #https://www.mql5.com/en/code/576
+    #SetIndexBuffer(0,Filled_a,INDICATOR_DATA);
+    #SetIndexBuffer(1,Filled_b,INDICATOR_DATA);
+    #SetIndexBuffer(2,SuperTrend,INDICATOR_DATA);
+    #SetIndexBuffer(3,ColorBuffer,INDICATOR_COLOR_INDEX);
+    #SetIndexBuffer(4,Atr,INDICATOR_CALCULATIONS);
+    #SetIndexBuffer(5,Up,INDICATOR_CALCULATIONS);
+    #SetIndexBuffer(6,Down,INDICATOR_CALCULATIONS);
+    #SetIndexBuffer(7,Middle,INDICATOR_CALCULATIONS);
+    #SetIndexBuffer(8,trend,INDICATOR_CALCULATIONS);
+    if ($Name -eq "SuperTrend" ) {
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            $CustomIndy_Label                = "SuperTrend"
+            $CustomIndy_Type                 = "3"
+            $CustomIndy_TF                   = "5"
+            $CustomIndy_PathAndName          = "supertrend"
+            $CustomIndy_ParametersStr        = "10,3,0"
+            $CustomIndy_BufferB              = "2"
+            $CustomIndy_BufferS              = "2"
+            $CustomIndy_ColorBufferB         = "3"
+            $CustomIndy_ColorBufferS         = "3"
+            $CustomIndy_ColorIndexB          = "0"
+            $CustomIndy_ColorIndexS          = "1"
+            $CustomIndy_LevelMaxB            = "-999"
+            $CustomIndy_LevelMinB            = "-999"
+            $CustomIndy_LevelMaxS            = "-999"
+            $CustomIndy_LevelMinS            = "-999"
+            $CustomIndy_Reverse              = "false"
+            $CustomIndy_UseClosedBars        = "true"
+            $CustomIndy_DrawShortName        = "Supertrend"
+            $CustomIndy_DrawInSubwindow      = "false"
+            $CustomIndy_AllowNegativeAndZero = "true"
+            $CustomIndy_OpenOn               = "1"
+            $CustomIndy_MartinOn             = "0"
+            $CustomIndy_HedgeOn              = "0"
+            $CustomIndy_CloseOn              = "2"
+            $CustomIndy_PartialCloseOn       = "0"
         }
-
-        #Bollinger bands breakout
-        #https://www.mql5.com/en/code/24612
-        #SetIndexBuffer(0,fupu    ,INDICATOR_DATA);
-        #SetIndexBuffer(1,fupd    ,INDICATOR_DATA);
-        #SetIndexBuffer(2,fdnu    ,INDICATOR_DATA);
-        #SetIndexBuffer(3,fdnd    ,INDICATOR_DATA);
-        #SetIndexBuffer(4,bufferUp,INDICATOR_DATA);
-        #SetIndexBuffer(5,bufferDn,INDICATOR_DATA);
-        #SetIndexBuffer(6,bufferMe,INDICATOR_DATA);
-        #SetIndexBuffer(7,breakup ,INDICATOR_DATA); PlotIndexSetInteger(5,PLOT_ARROW,217); PlotIndexSetInteger(5,PLOT_ARROW_SHIFT,-10);
-        #SetIndexBuffer(8,breakdn ,INDICATOR_DATA);
-        if ($comboBox1.SelectedItem.ToString() -eq "Bollinger bands breakout" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy1_Label           = "Bollinger bands breakout"
-                CustomIndy1_Type            = "3"
-                CustomIndy1_TF              = "5"
-                CustomIndy1_PathAndName     = "Bollinger bands breakout"
-                CustomIndy1_ParametersStr   = "20,1,2.0,20.0,1"
-                CustomIndy1_BufferB         = "7"
-                CustomIndy1_BufferS         = "8"
-                CustomIndy1_ColorBufferB    = "-1"
-                CustomIndy1_ColorBufferS    = "-1"
-                CustomIndy1_ColorIndexB     = "-1"
-                CustomIndy1_ColorIndexS     = "-1"
-                CustomIndy1_LevelMaxB       = "-999"
-                CustomIndy1_LevelMinB       = "-999"
-                CustomIndy1_LevelMaxS       = "-999"
-                CustomIndy1_LevelMinS       = "-999"
-                CustomIndy1_Reverse         = "false"
-                CustomIndy1_UseClosedBars   = "true"
-                CustomIndy1_DrawShortName   = "Bollinger bands breakout"
-                CustomIndy1_DrawInSubwindow = "false"
-                CustomIndy1_OpenOn          = "1"
-                CustomIndy1_MartinOn        = "0"
-                CustomIndy1_HedgeOn         = "0"
-                CustomIndy1_CloseOn         = "2"
-                CustomIndy1_PartialCloseOn  = "0"
-            }
-        }
-
-        #TrendLine PRO MT5
-        #https://www.mql5.com/en/market/product/42399
-        if ($comboBox1.SelectedItem.ToString() -eq "TrendLine PRO MT5" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy1_Label                = "TrendLine"
-                CustomIndy1_Type                 = "3"
-                CustomIndy1_TF                   = "5"
-                CustomIndy1_PathAndName          = "Market\TrendLine PRO MT5"
-                CustomIndy1_ParametersStr        = ""
-                CustomIndy1_BufferB              = "7"
-                CustomIndy1_BufferS              = "8"
-                CustomIndy1_ColorBufferB         = "7"
-                CustomIndy1_ColorBufferS         = "8"
-                CustomIndy1_ColorIndexB          = "0"
-                CustomIndy1_ColorIndexS          = "0"
-                CustomIndy1_LevelMaxB            = "-999"
-                CustomIndy1_LevelMinB            = "-999"
-                CustomIndy1_LevelMaxS            = "-999"
-                CustomIndy1_LevelMinS            = "-999"
-                CustomIndy1_Reverse              = "false"
-                CustomIndy1_UseClosedBars        = "true"
-                CustomIndy1_DrawShortName        = "TrendLine"
-                CustomIndy1_DrawInSubwindow      = "false"
-                CustomIndy1_AllowNegativeAndZero = "true"
-                CustomIndy1_OpenOn               = "1"
-                CustomIndy1_MartinOn             = "0"
-                CustomIndy1_HedgeOn              = "0"
-                CustomIndy1_CloseOn              = "2"
-                CustomIndy1_PartialCloseOn       = "0"
-            }
-        }
-
-        #HMA Color with Alerts MT5
-        #https://www.mql5.com/en/market/product/27341
-        if ($comboBox1.SelectedItem.ToString() -eq "HMA Color with Alerts MT5" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy1_Label                = "HMA Color"
-                CustomIndy1_Type                 = "3"
-                CustomIndy1_TF                   = "15"
-                CustomIndy1_PathAndName          = "Market\HMA Color with Alerts MT5"
-                CustomIndy1_ParametersStr        = ""
-                CustomIndy1_BufferB              = "0"
-                CustomIndy1_BufferS              = "0"
-                CustomIndy1_ColorBufferB         = "1"
-                CustomIndy1_ColorBufferS         = "1"
-                CustomIndy1_ColorIndexB          = "0"
-                CustomIndy1_ColorIndexS          = "1"
-                CustomIndy1_LevelMaxB            = "-999"
-                CustomIndy1_LevelMinB            = "-999"
-                CustomIndy1_LevelMaxS            = "-999"
-                CustomIndy1_LevelMinS            = "-999"
-                CustomIndy1_Reverse              = "false"
-                CustomIndy1_UseClosedBars        = "true"
-                CustomIndy1_DrawShortName        = "HMA"
-                CustomIndy1_DrawInSubwindow      = "false"
-                CustomIndy1_AllowNegativeAndZero = "true"
-                CustomIndy1_OpenOn               = "1"
-                CustomIndy1_MartinOn             = "0"
-                CustomIndy1_HedgeOn              = "0"
-                CustomIndy1_CloseOn              = "2"
-                CustomIndy1_PartialCloseOn       = "0"
-            }
-        }
-
-        #Disable Custom Indicator
-        if ($comboBox1.SelectedItem.ToString() -eq "DisableCustomIndy" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy1_Properties           = "===== Custom Indy #1 ====="
-                CustomIndy1_Label                = "Custom Indicator"
-                CustomIndy1_Type                 = "0"
-                CustomIndy1_TF                   = "0"
-                CustomIndy1_PathAndName          = "MyIndicators\MyBestIndy"
-                CustomIndy1_ParametersStr        = ""
-                CustomIndy1_BufferB              = "-1"
-                CustomIndy1_BufferS              = "-1"
-                CustomIndy1_ColorBufferB         = "-1"
-                CustomIndy1_ColorBufferS         = "-1"
-                CustomIndy1_ColorIndexB          = "-1"
-                CustomIndy1_ColorIndexS          = "-1"
-                CustomIndy1_LevelMaxB            = "-999"
-                CustomIndy1_LevelMinB            = "-999"
-                CustomIndy1_LevelMaxS            = "-999"
-                CustomIndy1_LevelMinS            = "-999"
-                CustomIndy1_Reverse              = "false"
-                CustomIndy1_UseClosedBars        = "true"
-                CustomIndy1_DrawShortName        = "MyBestIndy"
-                CustomIndy1_DrawInSubwindow      = "false"
-                CustomIndy1_AllowNegativeAndZero = "true"
-                CustomIndy1_OpenOn               = "0"
-                CustomIndy1_MartinOn             = "0"
-                CustomIndy1_HedgeOn              = "0"
-                CustomIndy1_CloseOn              = "0"
-                CustomIndy1_PartialCloseOn       = "0"
-            }
-        }
-
-        if (!($comboBox1.SelectedItem.ToString() -eq "DisableCustomIndy" )) {
-            #Read All Setting File parameters
-            $inifile = Get-IniFile($FilePath)
-
-            #Detect Exist a Custom Indicator. Version => 2.49.2.1(BETA)
-            $CustomIndy1_Type = [int]$inifile["CustomIndy1_Type"]
-            if ($CustomIndy1_Type -ne 0) {
-                $CustomIndy1_DrawShortName = [string]$inifile["CustomIndy1_DrawShortName"]
-                Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                    CustomIndy1_Properties = "===== " + $CustomIndy1_DrawShortName + " #1 ====="
-                }
-            }
-        }
-
     }
-    return $true
-}
 
-function ButtonCustomIndy_2 {
-    Param(
-        [string]$FilePath
-    )
-    #Buffer Reader For MT5
-    #The Buffer Reader will help you to check and export the custom indicators buffers data for your current chart and timeframe.
-    #https://www.mql5.com/en/market/product/52964?source=Unknown
-
-    #CustomIndy #2
-    if (!($comboBox2.SelectedIndex -eq "-1")) {
-
-        #SuperTrend
-        #https://www.mql5.com/en/code/576
-        if ($comboBox2.SelectedItem.ToString() -eq "SuperTrend" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy2_Label                = "SuperTrend"
-                CustomIndy2_Type                 = "3"
-                CustomIndy2_TF                   = "5"
-                CustomIndy2_PathAndName          = "supertrend"
-                CustomIndy2_ParametersStr        = "10,3,0"
-                CustomIndy2_BufferB              = "2"
-                CustomIndy2_BufferS              = "2"
-                CustomIndy2_ColorBufferB         = "3"
-                CustomIndy2_ColorBufferS         = "3"
-                CustomIndy2_ColorIndexB          = "0"
-                CustomIndy2_ColorIndexS          = "1"
-                CustomIndy2_LevelMaxB            = "-999"
-                CustomIndy2_LevelMinB            = "-999"
-                CustomIndy2_LevelMaxS            = "-999"
-                CustomIndy2_LevelMinS            = "-999"
-                CustomIndy2_Reverse              = "false"
-                CustomIndy2_UseClosedBars        = "true"
-                CustomIndy2_DrawShortName        = "Supertrend"
-                CustomIndy2_DrawInSubwindow      = "false"
-                CustomIndy2_AllowNegativeAndZero = "true"
-                CustomIndy2_OpenOn               = "1"
-                CustomIndy2_MartinOn             = "0"
-                CustomIndy2_HedgeOn              = "0"
-                CustomIndy2_CloseOn              = "2"
-                CustomIndy2_PartialCloseOn       = "0"
-            }
+    #Bollinger bands breakout
+    #https://www.mql5.com/en/code/24612
+    #SetIndexBuffer(0,fupu    ,INDICATOR_DATA);
+    #SetIndexBuffer(1,fupd    ,INDICATOR_DATA);
+    #SetIndexBuffer(2,fdnu    ,INDICATOR_DATA);
+    #SetIndexBuffer(3,fdnd    ,INDICATOR_DATA);
+    #SetIndexBuffer(4,bufferUp,INDICATOR_DATA);
+    #SetIndexBuffer(5,bufferDn,INDICATOR_DATA);
+    #SetIndexBuffer(6,bufferMe,INDICATOR_DATA);
+    #SetIndexBuffer(7,breakup ,INDICATOR_DATA); PlotIndexSetInteger(5,PLOT_ARROW,217); PlotIndexSetInteger(5,PLOT_ARROW_SHIFT,-10);
+    #SetIndexBuffer(8,breakdn ,INDICATOR_DATA);
+    if ($Name -eq "Bollinger bands breakout" ) {
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            CustomIndy_Label           = "Bollinger bands breakout"
+            CustomIndy_Type            = "3"
+            CustomIndy_TF              = "5"
+            CustomIndy_PathAndName     = "Bollinger bands breakout"
+            $CustomIndy_ParametersStr   = "20,1,2.0,20.0,1"
+            $CustomIndy_BufferB         = "7"
+            $CustomIndy_BufferS         = "8"
+            $CustomIndy_ColorBufferB    = "-1"
+            $CustomIndy_ColorBufferS    = "-1"
+            $CustomIndy_ColorIndexB     = "-1"
+            $CustomIndy_ColorIndexS     = "-1"
+            $CustomIndy_LevelMaxB       = "-999"
+            $CustomIndy_LevelMinB       = "-999"
+            $CustomIndy_LevelMaxS       = "-999"
+            $CustomIndy_LevelMinS       = "-999"
+            $CustomIndy_Reverse         = "false"
+            $CustomIndy_UseClosedBars   = "true"
+            $CustomIndy_DrawShortName   = "Bollinger bands breakout"
+            $CustomIndy_DrawInSubwindow = "false"
+            $CustomIndy_OpenOn          = "1"
+            $CustomIndy_MartinOn        = "0"
+            $CustomIndy_HedgeOn         = "0"
+            $CustomIndy_CloseOn         = "2"
+            $CustomIndy_PartialCloseOn  = "0"
         }
+    }
 
-        #TrendLine PRO MT5
-        #https://www.mql5.com/en/market/product/42399
-        if ($comboBox1.SelectedItem.ToString() -eq "TrendLine PRO MT5" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy2_Label                = "TrendLine"
-                CustomIndy2_Type                 = "3"
-                CustomIndy2_TF                   = "5"
-                CustomIndy2_PathAndName          = "Market\TrendLine PRO MT5"
-                CustomIndy2_ParametersStr        = ""
-                CustomIndy2_BufferB              = "7"
-                CustomIndy2_BufferS              = "8"
-                CustomIndy2_ColorBufferB         = "7"
-                CustomIndy2_ColorBufferS         = "8"
-                CustomIndy2_ColorIndexB          = "0"
-                CustomIndy2_ColorIndexS          = "0"
-                CustomIndy2_LevelMaxB            = "-999"
-                CustomIndy2_LevelMinB            = "-999"
-                CustomIndy2_LevelMaxS            = "-999"
-                CustomIndy2_LevelMinS            = "-999"
-                CustomIndy2_Reverse              = "false"
-                CustomIndy2_UseClosedBars        = "true"
-                CustomIndy2_DrawShortName        = "TrendLine"
-                CustomIndy2_DrawInSubwindow      = "false"
-                CustomIndy2_AllowNegativeAndZero = "true"
-                CustomIndy2_OpenOn               = "1"
-                CustomIndy2_MartinOn             = "0"
-                CustomIndy2_HedgeOn              = "0"
-                CustomIndy2_CloseOn              = "2"
-                CustomIndy2_PartialCloseOn       = "0"
-            }
+    #TrendLine PRO MT5
+    #https://www.mql5.com/en/market/product/42399
+    if ($Name -eq "TrendLine PRO MT5" ) {
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            CustomIndy_Label                 = "TrendLine"
+            CustomIndy_Type                  = "3"
+            CustomIndy_TF                    = "5"
+            CustomIndy_PathAndName           = "Market\TrendLine PRO MT5"
+            CustomIndy_ParametersStr         = ""
+            CustomIndy_BufferB               = "7"
+            $CustomIndy_BufferS              = "8"
+            $CustomIndy_ColorBufferB         = "7"
+            $CustomIndy_ColorBufferS         = "8"
+            $CustomIndy_ColorIndexB          = "0"
+            $CustomIndy_ColorIndexS          = "0"
+            $CustomIndy_LevelMaxB            = "-999"
+            $CustomIndy_LevelMinB            = "-999"
+            $CustomIndy_LevelMaxS            = "-999"
+            $CustomIndy_LevelMinS            = "-999"
+            $CustomIndy_Reverse              = "false"
+            $CustomIndy_UseClosedBars        = "true"
+            $CustomIndy_DrawShortName        = "TrendLine"
+            $CustomIndy_DrawInSubwindow      = "false"
+            $CustomIndy_AllowNegativeAndZero = "true"
+            $CustomIndy_OpenOn               = "1"
+            $CustomIndy_MartinOn             = "0"
+            $CustomIndy_HedgeOn              = "0"
+            $CustomIndy_CloseOn              = "2"
+            $CustomIndy_PartialCloseOn       = "0"
         }
+    }
 
-        #TrendLine PRO MT5
-        #https://www.mql5.com/en/market/product/42399
-        if ($comboBox1.SelectedItem.ToString() -eq "HMA Color with Alerts MT5" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy2_Label                = "HMA Color"
-                CustomIndy2_Type                 = "3"
-                CustomIndy2_TF                   = "5"
-                CustomIndy2_PathAndName          = "Market\HMA Color with Alerts MT5"
-                CustomIndy2_ParametersStr        = "-,100,3,6,-,0,0,0,0,'','',1"
-                CustomIndy2_BufferB              = "0"
-                CustomIndy2_BufferS              = "1"
-                CustomIndy2_ColorBufferB         = "0"
-                CustomIndy2_ColorBufferS         = "0"
-                CustomIndy2_ColorIndexB          = "0"
-                CustomIndy2_ColorIndexS          = "1"
-                CustomIndy2_LevelMaxB            = "-999"
-                CustomIndy2_LevelMinB            = "-999"
-                CustomIndy2_LevelMaxS            = "-999"
-                CustomIndy2_LevelMinS            = "-999"
-                CustomIndy2_Reverse              = "false"
-                CustomIndy2_UseClosedBars        = "true"
-                CustomIndy2_DrawShortName        = "HMA"
-                CustomIndy2_DrawInSubwindow      = "false"
-                CustomIndy2_AllowNegativeAndZero = "true"
-                CustomIndy2_OpenOn               = "1"
-                CustomIndy2_MartinOn             = "0"
-                CustomIndy2_HedgeOn              = "0"
-                CustomIndy2_CloseOn              = "2"
-                CustomIndy2_PartialCloseOn       = "0"
-            }
+    #HMA Color with Alerts MT5
+    #https://www.mql5.com/en/market/product/27341
+    if ($Name -eq "HMA Color with Alerts MT5" ) {
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            $CustomIndy_Label                = "HMA Color"
+            $CustomIndy_Type                 = "3"
+            $CustomIndy_TF                   = "5"
+            $CustomIndy_PathAndName          = "Market\HMA Color with Alerts MT5"
+            $CustomIndy_ParametersStr        = ""
+            $CustomIndy_BufferB              = "0"
+            $CustomIndy_BufferS              = "0"
+            $CustomIndy_ColorBufferB         = "1"
+            $CustomIndy_ColorBufferS         = "1"
+            $CustomIndy_ColorIndexB          = "0"
+            $CustomIndy_ColorIndexS          = "1"
+            $CustomIndy_LevelMaxB            = "-999"
+            $CustomIndy_LevelMinB            = "-999"
+            $CustomIndy_LevelMaxS            = "-999"
+            $CustomIndy_LevelMinS            = "-999"
+            $CustomIndy_Reverse              = "false"
+            $CustomIndy_UseClosedBars        = "true"
+            $CustomIndy_DrawShortName        = "HMA"
+            $CustomIndy_DrawInSubwindow      = "false"
+            $CustomIndy_AllowNegativeAndZero = "true"
+            $CustomIndy_OpenOn               = "1"
+            $CustomIndy_MartinOn             = "0"
+            $CustomIndy_HedgeOn              = "0"
+            $CustomIndy_CloseOn              = "2"
+            $CustomIndy_PartialCloseOn       = "0"
         }
+    }
 
-        #HMA Color with Alerts MT5
-        #https://www.mql5.com/en/market/product/27341
-        if ($comboBox1.SelectedItem.ToString() -eq "HMA Color with Alerts MT5" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy2_Label                = "HMA Color"
-                CustomIndy2_Type                 = "3"
-                CustomIndy2_TF                   = "5"
-                CustomIndy2_PathAndName          = "Market\HMA Color with Alerts MT5"
-                CustomIndy2_ParametersStr        = ""
-                CustomIndy2_BufferB              = "0"
-                CustomIndy2_BufferS              = "0"
-                CustomIndy2_ColorBufferB         = "1"
-                CustomIndy2_ColorBufferS         = "1"
-                CustomIndy2_ColorIndexB          = "0"
-                CustomIndy2_ColorIndexS          = "1"
-                CustomIndy2_LevelMaxB            = "-999"
-                CustomIndy2_LevelMinB            = "-999"
-                CustomIndy2_LevelMaxS            = "-999"
-                CustomIndy2_LevelMinS            = "-999"
-                CustomIndy2_Reverse              = "false"
-                CustomIndy2_UseClosedBars        = "true"
-                CustomIndy2_DrawShortName        = "HMA"
-                CustomIndy2_DrawInSubwindow      = "false"
-                CustomIndy2_AllowNegativeAndZero = "true"
-                CustomIndy2_OpenOn               = "1"
-                CustomIndy2_MartinOn             = "0"
-                CustomIndy2_HedgeOn              = "0"
-                CustomIndy2_CloseOn              = "2"
-                CustomIndy2_PartialCloseOn       = "0"
-            }
-        }
-
-        #Disable Custom Indicator
-        if ($comboBox2.SelectedItem.ToString() -eq "DisableCustomIndy" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                CustomIndy2_Properties           = "===== Custom Indy #2 ====="
-                CustomIndy2_Label                = "Custom Indicator"
-                CustomIndy2_Type                 = "0"
-                CustomIndy2_TF                   = "0"
-                CustomIndy2_PathAndName          = "MyIndicators\MyBestIndy"
-                CustomIndy2_ParametersStr        = ""
-                CustomIndy2_BufferB              = "-1"
-                CustomIndy2_BufferS              = "-1"
-                CustomIndy2_ColorBufferB         = "-1"
-                CustomIndy2_ColorBufferS         = "-1"
-                CustomIndy2_ColorIndexB          = "-1"
-                CustomIndy2_ColorIndexS          = "-1"
-                CustomIndy2_LevelMaxB            = "-999"
-                CustomIndy2_LevelMinB            = "-999"
-                CustomIndy2_LevelMaxS            = "-999"
-                CustomIndy2_LevelMinS            = "-999"
-                CustomIndy2_Reverse              = "false"
-                CustomIndy2_UseClosedBars        = "true"
-                CustomIndy2_DrawShortName        = "MyBestIndy"
-                CustomIndy2_DrawInSubwindow      = "false"
-                CustomIndy2_AllowNegativeAndZero = "true"
-                CustomIndy2_OpenOn               = "0"
-                CustomIndy2_MartinOn             = "0"
-                CustomIndy2_HedgeOn              = "0"
-                CustomIndy2_CloseOn              = "0"
-                CustomIndy2_PartialCloseOn       = "0"
-            }
-        }
-
-        if (!($comboBox2.SelectedItem.ToString() -eq "DisableCustomIndy" )) {
-            #Read All Setting File parameters
-            $inifile = Get-IniFile($FilePath)
-
-            #Detect Exist a Custom Indicator. Version => 2.49.2.1(BETA)
-            $CustomIndy2_Type = [int]$inifile["CustomIndy2_Type"]
-            if ($CustomIndy2_Type -ne 0) {
-                $CustomIndy2_DrawShortName = [string]$inifile["CustomIndy2_DrawShortName"]
-                Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-                    CustomIndy2_Properties = "===== " + $CustomIndy2_DrawShortName + " #2 ====="
-                }
-            }
+    #Disable Custom Indicator
+    if ($Name -eq "DisableCustomIndy" ) {
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            $CustomIndy_Properties           = "===== Custom Indy #" + $Number + " ====="
+            $CustomIndy_Label                = "Custom Indicator"
+            $CustomIndy_Type                 = "0"
+            $CustomIndy_TF                   = "0"
+            $CustomIndy_PathAndName          = "MyIndicators\MyBestIndy"
+            $CustomIndy_ParametersStr        = ""
+            $CustomIndy_BufferB              = "-1"
+            $CustomIndy_BufferS              = "-1"
+            $CustomIndy_ColorBufferB         = "-1"
+            $CustomIndy_ColorBufferS         = "-1"
+            $CustomIndy_ColorIndexB          = "-1"
+            $CustomIndy_ColorIndexS          = "-1"
+            $CustomIndy_LevelMaxB            = "-999"
+            $CustomIndy_LevelMinB            = "-999"
+            $CustomIndy_LevelMaxS            = "-999"
+            $CustomIndy_LevelMinS            = "-999"
+            $CustomIndy_Reverse              = "false"
+            $CustomIndy_UseClosedBars        = "true"
+            $CustomIndy_DrawShortName        = "MyBestIndy"
+            $CustomIndy_DrawInSubwindow      = "false"
+            $CustomIndy_AllowNegativeAndZero = "true"
+            $CustomIndy_OpenOn               = "0"
+            $CustomIndy_MartinOn             = "0"
+            $CustomIndy_HedgeOn              = "0"
+            $CustomIndy_CloseOn              = "0"
+            $CustomIndy_PartialCloseOn       = "0"
         }
     }
     return $true
 }
 
+#Detect GRID
 function ButtonDetectGRID {
     Param(
         [string]$FilePath
@@ -1892,10 +1731,13 @@ function ButtonDetectGRID {
     if (!(DetectGRID -FilePath $FilePath -indy "CustomIndy2")) {
         return $false
     }
-
+    if (!(DetectGRID -FilePath $FilePath -indy "CustomIndy3")) {
+        return $false
+    }
     return $true
 }
 
+#Convert a GRID
 function ButtonConvertToGRID {
     Param(
         [string]$FilePath
@@ -1963,6 +1805,17 @@ $comboBox2.DropDownStyle = 'DropDownList'
 $comboBox2.AutoCompleteSource = 'ListItems'
 $comboBox2.AutoCompleteMode = 'Append'
 $comboBox2.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout"))
+
+# Combobox
+$comboBox3 = New-Object System.Windows.Forms.ComboBox
+$comboBox3.Location = '370,140'
+$comboBox3.Size = '190,50'
+$comboBox3.DropDownStyle = 'DropDownList'
+$comboBox3.AutoCompleteSource = 'ListItems'
+$comboBox3.AutoCompleteMode = 'Append'
+$comboBox3.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout"))
+
+
 
 #https://forex-station.com/viewtopic.php?f=579495&t=8413842
 #STR is a combination of   RSI:9  +  STOCH:5/3/3  +  CCI:13   STR (Strength Trend Reversal)
@@ -2058,18 +1911,22 @@ $button14.Size = '300,20'
 $button14.Text = "Stoller Average Range Channel #3 (MA #3 && Volatility)"
 
 # Button
-# https://www.investopedia.com/terms/s/starc.asp
 $button15 = New-Object System.Windows.Forms.Button
 $button15.Location = '580,100'
 $button15.Size = '120,20'
 $button15.Text = "Apply CustomIndy #1"
 
 # Button
-# https://www.investopedia.com/terms/s/starc.asp
 $button16 = New-Object System.Windows.Forms.Button
 $button16.Location = '580,120'
 $button16.Size = '120,20'
 $button16.Text = "Apply CustomIndy #2"
+
+# Button
+$button163 = New-Object System.Windows.Forms.Button
+$button163.Location = '580,140'
+$button163.Size = '120,20'
+$button163.Text = "Apply CustomIndy #3"
 
 # Button
 # GRID
@@ -2102,6 +1959,13 @@ $label2 = New-Object System.Windows.Forms.Label
 $label2.Location = '280,120'
 $label2.AutoSize = $True
 $label2.Text = "CustomIndy #2:"
+
+# Label
+$label23 = New-Object System.Windows.Forms.Label
+$label23.Location = '280,140'
+$label23.AutoSize = $True
+$label23.Text = "CustomIndy #3:"
+
 
 # Label
 $label3 = New-Object System.Windows.Forms.Label
@@ -2139,17 +2003,21 @@ $form.Controls.Add($button13)
 $form.Controls.Add($button14)
 $form.Controls.Add($button15)
 $form.Controls.Add($button16)
+$form.Controls.Add($button163)
+$form.Controls.Add($buttonX)
 $form.Controls.Add($button17)
 $form.Controls.Add($button18)
 $form.Controls.Add($label)
 $form.Controls.Add($label1)
 $form.Controls.Add($label2)
+$form.Controls.Add($label23)
 $form.Controls.Add($label3)
 $form.Controls.Add($listBox)
 $form.Controls.Add($statusBar)
 $form.Controls.Add($comboBox)
 $form.Controls.Add($comboBox1)
 $form.Controls.Add($comboBox2)
+$form.Controls.Add($comboBox3)
 $form.ResumeLayout()
 
 ### Write event handlers ###
@@ -2293,12 +2161,12 @@ $button11_Click = {
     }
 }
 
-#STARC Bands
+#STARC Bands 1
 $button12_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonSTARC_1 -filePath $item) {
+            if (ButtonSTARC -FilePath $item -Number "1") {
                 [System.Windows.Forms.MessageBox]::Show('Stoller Average Range Channel #1 Applied', 'Stoller Average Range Channel #1', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) Stoller Average Range Channel #1 Applied")
             }
@@ -2306,12 +2174,12 @@ $button12_Click = {
     }
 }
 
-#STARC Bands
+#STARC Bands 2
 $button13_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonSTARC_2 -filePath $item) {
+            if (ButtonSTARC -FilePath $item -Number "2") {
                 [System.Windows.Forms.MessageBox]::Show('Stoller Average Range Channel #2 Applied', 'Stoller Average Range Channel #2', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) Stoller Average Range Channel #2 Applied")
             }
@@ -2319,12 +2187,12 @@ $button13_Click = {
     }
 }
 
-#STARC Bands
+#STARC Bands 3
 $button14_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonSTARC_3 -filePath $item) {
+            if (ButtonSTARC -FilePath $item -Number "3") {
                 [System.Windows.Forms.MessageBox]::Show('Stoller Average Range Channel #3 Applied', 'Stoller Average Range Channel #3', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) Stoller Average Range Channel #3 Applied")
             }
@@ -2332,12 +2200,12 @@ $button14_Click = {
     }
 }
 
-#Apply CustomIndy 1
+#Custom Indy 1
 $button15_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonCustomIndy_1 -FilePath $item) {
+            if (ButtonCustomIndy_X -FilePath $item -indy "1" -name $comboBox1.SelectedItem.ToString() ) {
                 [System.Windows.Forms.MessageBox]::Show('CustomIndy #1 Applied', 'CustomIndy #1', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) CustomIndy #1 Applied")
             }
@@ -2345,14 +2213,27 @@ $button15_Click = {
     }
 }
 
-#Apply CustomIndy 2
+#Custom Indy 2
 $button16_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonCustomIndy_2 -FilePath $item) {
+            if (ButtonCustomIndy_X -FilePath $item -indy "2" -name $comboBox2.SelectedItem.ToString()) {
                 [System.Windows.Forms.MessageBox]::Show('CustomIndy #2 Applied', 'CustomIndy #2', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) CustomIndy #2 Applied")
+            }
+        }
+    }
+}
+
+#Custom Indy 3
+$button163_Click = {
+    foreach ($item in $listBox.Items) {
+        $i = Get-Item -LiteralPath $item
+        if (!($i -is [System.IO.DirectoryInfo])) {
+            if (ButtonCustomIndy_X -FilePath $item -indy "3" -name $comboBox3.SelectedItem.ToString()) {
+                [System.Windows.Forms.MessageBox]::Show('CustomIndy #3 Applied', 'CustomIndy #3', 0, 64)
+                $statusBar.Text = ("$($listBox.Items.Count) CustomIndy #3 Applied")
             }
         }
     }
@@ -2428,6 +2309,7 @@ $button14.Add_Click($button14_Click)
 #Apply CustomIndy
 $button15.Add_Click($button15_Click)
 $button16.Add_Click($button16_Click)
+$button163.Add_Click($button163_Click)
 #GRID
 $button17.Add_Click($button17_Click)
 $button18.Add_Click($button18_Click)
