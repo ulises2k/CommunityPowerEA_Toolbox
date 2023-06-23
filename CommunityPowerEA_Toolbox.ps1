@@ -149,16 +149,18 @@ function DetectGRID {
     if (($OpenOn -eq 0) -and ($MartinOn -eq 0) -and ($CloseOn -eq 0) -and ($PartialCloseOn -eq 0) -and ($HedgeOn -eq 0)) {
         $GRID = $true
     }
-    else {
-        return $false
-    }
-    #If not Enabled, Don't use for open/Don't use for close/Don't use for partial close
-    $Type = [int]$inifile[$indy + "_Type"]
-    if ($Type -eq 0) {
+
+    $Indy_Type = [int]$inifile[$indy + "_Type"]
+    if ($Indy_Type -eq 0) {
         $GRID = $true
     }
-    else {
-        return $false
+    $Indy_Enable = [string]$inifile[$indy + "_Enable"]
+    if ($Indy_Enable -eq "0") {
+        $GRID = $true
+    }
+    $Indy_Mode = [string]$inifile[$indy + "_Mode"]
+    if ($Indy_Mode -eq "false") {
+        $GRID = $true
     }
 
     return $GRID
@@ -177,15 +179,31 @@ function ConvertToGRID {
     $Indy_CloseOn = $indy + "_CloseOn"
     $Indy_PartialCloseOn = $indy + "_PartialCloseOn"
     $Indy_HedgeOn = $indy + "_HedgeOn"
-    $IndyType = $indy + "_Type"
-    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-        $IndyType            = "0"
+    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
         $Indy_Open           = "0"
         $Indy_MartinOn       = "0"
         $Indy_CloseOn        = "0"
         $Indy_PartialCloseOn = "0"
         $Indy_HedgeOn        = "0"
     }
+
+    if ($indy -eq "IdentifyTrend"){
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+            "IdentifyTrend_Enable" = "false"
+        }
+    }
+    elseif ($indy -eq "TDI"){
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+            "TDI_Mode" = "0"
+        }
+    }
+    else{
+        $indy_Type = $indy + "_Type"
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+            $indy_Type = "0"
+        }
+    }
+
 }
 
 #Todos los indicadores que se puede construir con las Media Moviles
@@ -313,6 +331,7 @@ function MyDefault {
         PartialClose_Properties     = "===== Partial Close ====="
         GlobalMartingail_Properties = "===== Apply martin to the new deals ====="
         AntiMartingale_Properties   = "===== Anti-Martingale ====="
+        Individual_Properties       = "===== Individual Order ====="
     }
 
     Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
@@ -336,6 +355,7 @@ function MyDefault {
         VolFilter_Properties     = "===== Volatility Filter ====="
         FIBO_Properties          = "===== FIBO #1 ====="
         FIB2_Properties          = "===== FIBO #2 ====="
+        MACDF_Properties         = "===== MACD for FIBO signals ====="
         CustomIndy1_Properties   = "===== Custom Indy #1 ====="
         CustomIndy2_Properties   = "===== Custom Indy #2 ====="
         CustomIndy3_Properties   = "===== Custom Indy #3 ====="
@@ -935,6 +955,7 @@ function MyDefault {
             DirChange_OpenOn = "0"
         }
     }
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "DirChange" -EnableTypeMode "Type"
     IndicatorIfNotValidOption -FilePath $FilePath -indy "BigCandle" -EnableTypeMode "Type"
     IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillators" -EnableTypeMode "Type"
     IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillator2" -EnableTypeMode "Type"
@@ -956,32 +977,6 @@ function MyDefault {
     IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy1" -EnableTypeMode "Type"
     IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy2" -EnableTypeMode "Type"
     IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy3" -EnableTypeMode "Type"
-
-
-
-    #Can be used to view only the news with "No news time as a filter"
-    #If not select Open/OpenMartin/Close/Partial/HedgeOn Disable Volatility Filter
-    #$News_OpenOn = [int]$inifile["News_OpenOn"]
-    #$News_MartinOn = [int]$inifile["News_MartinOn"]
-    #$News_CloseOn = [int]$inifile["News_CloseOn"]
-    #$News_PartialCloseOn = [int]$inifile["News_PartialCloseOn"]
-    #$News_HedgeOn = [int]$inifile["News_HedgeOn"]
-    #if (($News_OpenOn -eq 0) -and ($News_MartinOn -eq 0) -and ($News_CloseOn -eq 0) -and ($News_PartialCloseOn -eq 0) -and ($News_HedgeOn -eq 0)) {
-    #    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-    #        News_Mode = "0"
-    #    }
-    #}
-    #If not Enabled, Don't use for open/Don't use for close/Don't use for partial close
-    #$News_Mode = [int]$inifile["News_Mode"]
-    #if ($News_Mode -eq 0) {
-    #    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-    #        News_OpenOn         = "0"
-    #        News_MartinOn       = "0"
-    #        News_CloseOn        = "0"
-    #        News_PartialCloseOn = "0"
-    #        News_HedgeOn        = "0"
-    #    }
-    #}
 
     return $true
 }
@@ -1012,6 +1007,11 @@ function ButtonRename {
     }
     elseif ($VolPV_Type -eq 5) {
         $fileNewName = $fileNewName + "VolParamVolume_"
+    }
+
+    $DirChange = [int]$inifile["DirChange_Type"]
+    if ($DirChange -ne 0) {
+        $fileNewName = $fileNewName + "DirChange_"
     }
 
     $BigCandle = [int]$inifile["BigCandle_Type"]
@@ -1460,6 +1460,7 @@ function ButtonCustomIndy_X {
     #The Buffer Reader will help you to check and export the custom indicators buffers data for your current chart and timeframe.
     #https://www.mql5.com/en/market/product/52964?source=Unknown
 
+    $CustomIndy_Properties = "CustomIndy" + $Number + "_Properties"
     $CustomIndy_Label = "CustomIndy" + $Number + "_Label"
     $CustomIndy_Type = "CustomIndy" + $Number + "_Type"
     $CustomIndy_TF = "CustomIndy" + $Number + "_TF"
@@ -1631,6 +1632,82 @@ function ButtonCustomIndy_X {
         }
     }
 
+    #HMA Color with Alerts MT5
+    #https://www.mql5.com/en/market/product/27341
+    if ($Name -eq "HMA Color with Alerts MT5" ) {
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            $CustomIndy_Label                = "HMA Color"
+            $CustomIndy_Type                 = "3"
+            $CustomIndy_TF                   = "5"
+            $CustomIndy_PathAndName          = "Market\HMA Color with Alerts MT5"
+            $CustomIndy_ParametersStr        = ""
+            $CustomIndy_BufferB              = "0"
+            $CustomIndy_BufferS              = "0"
+            $CustomIndy_ColorBufferB         = "1"
+            $CustomIndy_ColorBufferS         = "1"
+            $CustomIndy_ColorIndexB          = "0"
+            $CustomIndy_ColorIndexS          = "1"
+            $CustomIndy_LevelMaxB            = "-999"
+            $CustomIndy_LevelMinB            = "-999"
+            $CustomIndy_LevelMaxS            = "-999"
+            $CustomIndy_LevelMinS            = "-999"
+            $CustomIndy_Reverse              = "false"
+            $CustomIndy_UseClosedBars        = "true"
+            $CustomIndy_DrawShortName        = "HMA"
+            $CustomIndy_DrawInSubwindow      = "false"
+            $CustomIndy_AllowNegativeAndZero = "true"
+            $CustomIndy_OpenOn               = "1"
+            $CustomIndy_MartinOn             = "0"
+            $CustomIndy_HedgeOn              = "0"
+            $CustomIndy_CloseOn              = "2"
+            $CustomIndy_PartialCloseOn       = "0"
+        }
+    }
+
+    #Half Trend New Alert - indicator for MetaTrader 5
+    #https://www.mql5.com/en/code/39446
+    #//--- indicator buffers mapping
+    #SetIndexBuffer(0,LineBuffer,INDICATOR_DATA);
+    #SetIndexBuffer(1,LineColors,INDICATOR_COLOR_INDEX);
+    #SetIndexBuffer(2,UpBuffer,INDICATOR_DATA);
+    #SetIndexBuffer(3,DownBuffer,INDICATOR_DATA);
+    #SetIndexBuffer(4,HighestBuffer,INDICATOR_DATA);
+    #SetIndexBuffer(5,LowestBuffer,INDICATOR_DATA);
+    #SetIndexBuffer(6,MA_PRICE_HIGH_Buffer,INDICATOR_CALCULATIONS);
+    #SetIndexBuffer(7,MA_PRICE_LOW_Buffer,INDICATOR_CALCULATIONS);
+    if ($Name -eq "Half Trend New Alert" ) {
+        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            $CustomIndy_Properties           = "===== Half Trend #" + $Number + " ====="
+            $CustomIndy_Label                = "Half Trend"
+            $CustomIndy_Type                 = "3"
+            $CustomIndy_TF                   = "5"
+            $CustomIndy_PathAndName          = "Half Trend New Alert"
+            $CustomIndy_ParametersStr        = "5,'alert.wav',3,3,0,0,0,0"
+            $CustomIndy_BufferB              = "0"
+            $CustomIndy_BufferS              = "0"
+            $CustomIndy_ColorBufferB         = "1"
+            $CustomIndy_ColorBufferS         = "1"
+            $CustomIndy_ColorIndexB          = "0"
+            $CustomIndy_ColorIndexS          = "1"
+            $CustomIndy_LevelMaxB            = "-999"
+            $CustomIndy_LevelMinB            = "-999"
+            $CustomIndy_LevelMaxS            = "-999"
+            $CustomIndy_LevelMinS            = "-999"
+            $CustomIndy_Reverse              = "false"
+            $CustomIndy_UseClosedBars        = "true"
+            $CustomIndy_DrawShortName        = "Half Trend"
+            $CustomIndy_DrawInSubwindow      = "false"
+            $CustomIndy_AllowNegativeAndZero = "true"
+            $CustomIndy_OpenOn               = "1"
+            $CustomIndy_MartinOn             = "0"
+            $CustomIndy_HedgeOn              = "0"
+            $CustomIndy_CloseOn              = "2"
+            $CustomIndy_PartialCloseOn       = "0"
+        }
+    }
+
+
+
     #Disable Custom Indicator
     if ($Name -eq "DisableCustomIndy" ) {
         Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
@@ -1670,7 +1747,9 @@ function ButtonDetectGRID {
     Param(
         [string]$FilePath
     )
-
+    if (!(DetectGRID -FilePath $FilePath -indy "DirChange")) {
+        return $false
+    }
     if (!(DetectGRID -FilePath $FilePath -indy "BigCandle")) {
         return $false
     }
@@ -1742,6 +1821,7 @@ function ButtonConvertToGRID {
     Param(
         [string]$FilePath
     )
+    ConvertToGRID -FilePath $FilePath -indy "DirChange"
     ConvertToGRID -FilePath $FilePath -indy "BigCandle"
     ConvertToGRID -FilePath $FilePath -indy "Oscillators"
     ConvertToGRID -FilePath $FilePath -indy "Oscillator2"
@@ -1762,6 +1842,7 @@ function ButtonConvertToGRID {
     ConvertToGRID -FilePath $FilePath -indy "FIB2"
     ConvertToGRID -FilePath $FilePath -indy "CustomIndy1"
     ConvertToGRID -FilePath $FilePath -indy "CustomIndy2"
+    ConvertToGRID -FilePath $FilePath -indy "CustomIndy3"
 }
 
 #######################GUI################################################################
@@ -1788,32 +1869,32 @@ $comboBox.AutoCompleteSource = 'ListItems'
 $comboBox.AutoCompleteMode = 'Append'
 $comboBox.Items.AddRange( @("", "DisableTime", "ASIA(Tokyo/Hong Kong/Singapore)", "EUROPA(Frankfurt/London)" , "AMERICA(New York/Chicago)", "PACIFICO(Wellington/Sidney)", "DateTime-EUR/USD", "DateTime-XAU/USD", "MyDefault-EUR/USD", "No Traded On Critical News"))
 
-# Combobox
+# Combobox #1
 $comboBox1 = New-Object System.Windows.Forms.ComboBox
 $comboBox1.Location = '370,100'
 $comboBox1.Size = '190,50'
 $comboBox1.DropDownStyle = 'DropDownList'
 $comboBox1.AutoCompleteSource = 'ListItems'
 $comboBox1.AutoCompleteMode = 'Append'
-$comboBox1.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout"))
+$comboBox1.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout", "Half Trend New Alert"))
 
-# Combobox
+# Combobox #2
 $comboBox2 = New-Object System.Windows.Forms.ComboBox
 $comboBox2.Location = '370,120'
 $comboBox2.Size = '190,50'
 $comboBox2.DropDownStyle = 'DropDownList'
 $comboBox2.AutoCompleteSource = 'ListItems'
 $comboBox2.AutoCompleteMode = 'Append'
-$comboBox2.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout"))
+$comboBox2.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout", "Half Trend New Alert"))
 
-# Combobox
+# Combobox #3
 $comboBox3 = New-Object System.Windows.Forms.ComboBox
 $comboBox3.Location = '370,140'
 $comboBox3.Size = '190,50'
 $comboBox3.DropDownStyle = 'DropDownList'
 $comboBox3.AutoCompleteSource = 'ListItems'
 $comboBox3.AutoCompleteMode = 'Append'
-$comboBox3.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout"))
+$comboBox3.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout", "Half Trend New Alert"))
 
 
 
@@ -2205,7 +2286,7 @@ $button15_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonCustomIndy_X -FilePath $item -indy "1" -name $comboBox1.SelectedItem.ToString() ) {
+            if (ButtonCustomIndy_X -FilePath $item -Number "1" -Name $comboBox1.SelectedItem.ToString() ) {
                 [System.Windows.Forms.MessageBox]::Show('CustomIndy #1 Applied', 'CustomIndy #1', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) CustomIndy #1 Applied")
             }
@@ -2218,7 +2299,7 @@ $button16_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonCustomIndy_X -FilePath $item -indy "2" -name $comboBox2.SelectedItem.ToString()) {
+            if (ButtonCustomIndy_X -FilePath $item -Number "2" -Name $comboBox2.SelectedItem.ToString()) {
                 [System.Windows.Forms.MessageBox]::Show('CustomIndy #2 Applied', 'CustomIndy #2', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) CustomIndy #2 Applied")
             }
@@ -2231,7 +2312,7 @@ $button163_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonCustomIndy_X -FilePath $item -indy "3" -name $comboBox3.SelectedItem.ToString()) {
+            if (ButtonCustomIndy_X -FilePath $item -Number "3" -Name $comboBox3.SelectedItem.ToString()) {
                 [System.Windows.Forms.MessageBox]::Show('CustomIndy #3 Applied', 'CustomIndy #3', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) CustomIndy #3 Applied")
             }
@@ -2261,8 +2342,7 @@ $button18_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            #FALTA TERMINAR
-            $Result = [System.Windows.Forms.MessageBox]::Show('¿Are you sure you want to convert the strategy to GRID?', 'Convert Strategy to GRID?', 4, 32)
+            $Result = [System.Windows.Forms.MessageBox]::Show('Are you sure you want to convert the strategy to GRID?', 'Convert Strategy to GRID?', 4, 32)
             if ($Result -eq 6) {
                 ButtonConvertToGRID -filePath $item
                 [System.Windows.Forms.MessageBox]::Show('Strategy converted to GRID', 'Strategy converted GRID', 0, 64)
