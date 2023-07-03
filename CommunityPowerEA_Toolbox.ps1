@@ -102,7 +102,7 @@ function IndicatorIfNotValidOption {
         }
 
         $IndyType = $indy + "_" + $EnableTypeMode
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $IndyType = $EnableTypeMode_Value
         }
     }
@@ -117,7 +117,7 @@ function IndicatorIfNotValidOption {
         $Indy_HedgeOn = $indy + "_HedgeOn"
         $Indy_CloseOn = $indy + "_CloseOn"
         $Indy_PartialCloseOn = $indy + "_PartialCloseOn"
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $Indy_Open           = "0"
             $Indy_MartinOn       = "0"
             $Indy_HedgeOn        = "0"
@@ -187,17 +187,17 @@ function ConvertToGRID {
         $Indy_HedgeOn        = "0"
     }
 
-    if ($indy -eq "IdentifyTrend"){
+    if ($indy -eq "IdentifyTrend") {
         Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             "IdentifyTrend_Enable" = "false"
         }
     }
-    elseif ($indy -eq "TDI"){
+    elseif ($indy -eq "TDI") {
         Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             "TDI_Mode" = "0"
         }
     }
-    else{
+    else {
         $indy_Type = $indy + "_Type"
         Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $indy_Type = "0"
@@ -244,15 +244,15 @@ function IndicatorsWithMA {
     $MA_Filter_Reverse = "MA_Filter_" + $Number + "_Reverse"
     $MA_Filter_UseClosedBars = "MA_Filter_" + $Number + "_UseClosedBars"
 
-    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-        $MA_Filter_Properties     = "===== " + $Name + " #" + $Number + " ====="
-        $MA_Filter_Type           = $Filter_Type
+    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+        $MA_Filter_Properties = "===== " + $Name + " #" + $Number + " ====="
+        $MA_Filter_Type       = $Filter_Type
         #$MA_Filter_TF             = "5"
-        $MA_Filter_Period         = $Filter_Period
-        $MA_Filter_Method         = $Filter_Method
-        $MA_Filter_Price          = $Filter_Price
-        $MA_Filter_DistType       = $Filter_DistType
-        $MA_Filter_DistCoef       = $Filter_DistCoef
+        $MA_Filter_Period     = $Filter_Period
+        $MA_Filter_Method     = $Filter_Method
+        $MA_Filter_Price      = $Filter_Price
+        $MA_Filter_DistType   = $Filter_DistType
+        $MA_Filter_DistCoef   = $Filter_DistCoef
         #$MA_Filter_OpenOn         = $Filter_OpenOn
         #$MA_Filter_MartinOn       = "0"
         #$MA_Filter_CloseOn        = $Filter_CloseOn
@@ -261,12 +261,12 @@ function IndicatorsWithMA {
     }
 
     #2.53
-    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
         $MA_Filter_Reverse       = "false"
-        $MA_Filter_UseClosedBars = "false"
+        $MA_Filter_UseClosedBars = "true"
     }
 
-    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
         VolMA_Properties = "===== Volatility for " + $Name + " #" + $Number + " ====="
         VolMA_Type       = $VolMA_Type
         #VolMA_TF         = "5"
@@ -274,6 +274,11 @@ function IndicatorsWithMA {
     }
 }
 
+#What is the difference between a pip and a point?
+#https://get.exness.help/hc/en-us/articles/360015522299-What-is-the-difference-between-pip-and-point-
+#
+#Calculadora de Trading
+#https://roboforex.com/es/beginners/start/forex-calculator/
 #
 #Correlaciones
 #https://www.mataf.net/es/forex/tools/correlation
@@ -428,21 +433,21 @@ function MyDefault {
     $CustomIndy1_Type = [int]$inifile["CustomIndy1_Type"]
     if ($CustomIndy1_Type -ne 0) {
         $CustomIndy1_DrawShortName = [string]$inifile["CustomIndy1_DrawShortName"]
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             CustomIndy1_Properties = "===== " + $CustomIndy1_DrawShortName + " ====="
         }
     }
     $CustomIndy2_Type = [int]$inifile["CustomIndy2_Type"]
     if ($CustomIndy2_Type -ne 0) {
         $CustomIndy2_DrawShortName = [string]$inifile["CustomIndy2_DrawShortName"]
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             CustomIndy2_Properties = "===== " + $CustomIndy2_DrawShortName + " ====="
         }
     }
     $CustomIndy3_Type = [int]$inifile["CustomIndy3_Type"]
     if ($CustomIndy3_Type -ne 0) {
         $CustomIndy3_DrawShortName = [string]$inifile["CustomIndy3_DrawShortName"]
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             CustomIndy3_Properties = "===== " + $CustomIndy3_DrawShortName + " ====="
         }
     }
@@ -450,7 +455,7 @@ function MyDefault {
 
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "DisableTime" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day ====="
                 EveryDay_StartHour         = "-1"
                 EveryDay_StartMinute       = "0"
@@ -490,6 +495,107 @@ function MyDefault {
         }
     }
 
+
+    #Read All Setting File parameters
+    $inifile = Get-IniFile($FilePath)
+
+    #Pending_Type
+    #$Pending_Type = [int]$inifile["Pending_Type"]
+    #if ($Pending_Type -eq 0) {
+    #    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+    #        Show_Pending    = "false"
+    #    }
+    #}
+    #else {
+    #    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+    #        Show_Pending    = "true"
+    #    }
+    #}
+
+    #If not use StopLoss disable line
+    #$StopLoss = [int]$inifile["StopLoss"]
+    #$GlobalStopLoss = [int]$inifile["GlobalStopLoss"]
+    #$GlobalStopLoss_ccy = [int]$inifile["GlobalStopLoss_ccy"]
+    #if (($StopLoss -eq 0) -and ($GlobalStopLoss -eq 0) -and ($GlobalStopLoss_ccy -eq 0)) {
+    #    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+    #        StopLoss_Width = "0"
+    #    }
+    #}
+    #else {
+    #    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+    #        StopLoss_Width = "2"
+    #    }
+    #}
+
+
+    #The stop level: This can be considered as a normal stop loss. When you add a trailing stop to an open position, your trailing stop is not active immediately. The market needs to move in your favour by the step distance for the trailing stop to be activated. If the market moves far enough against you before your trailing stop is activated, your position will be closed at this stop level.
+    #The stop distance: This will be the distance between your trailing stop and the market level once your trailing stop is activated. The trailing stop will maintain this stop distance as it tracks the market.
+    #The step distance: This is the number of points the market needs to move in your favour for the trailing stop to be adjusted upward or downward, depending on whether you are going long or short.
+    #ATR disable is not used
+    $Pending_Distance_ModeP = [int]$inifile["Pending_Distance_ModeP"]
+    $StopLoss_ModeP = [int]$inifile["StopLoss_ModeP"]
+    $TakeProfit_ModeP = [int]$inifile["TakeProfit_ModeP"]
+    $MinProfitToClose_ModeP = [int]$inifile["MinProfitToClose_ModeP"]
+    $TrailingStop_ModeP = [int]$inifile["TrailingStop_ModeP"]
+    $Martingail_ModeP = [int]$inifile["Martingail_ModeP"]
+    $AntiMartingail_ModeP = [int]$inifile["AntiMartingail_ModeP"]
+    $AntiStopLoss_ModeP = [int]$inifile["AntiStopLoss_ModeP"]
+    if (($Pending_Distance_ModeP -eq 0) -and ($StopLoss_ModeP -eq 0) -and ($TakeProfit_ModeP -eq 0) -and ($MinProfitToClose_ModeP -eq 0) -and ($TrailingStop_ModeP -eq 0) -and ($Martingail_ModeP -eq 0) -and ($AntiMartingail_ModeP -eq 0) -and ($AntiStopLoss_ModeP -eq 0)) {
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+            VolPV_Type = "0"
+        }
+    }
+
+    #ZigZag AND (MA_Filter 1 2 && 3) Distance
+    $ZZ_Type = [int]$inifile["ZZ_Type"]
+    $MA_Filter_1_Type = [int]$inifile["MA_Filter_1_Type"]
+    $MA_Filter_2_Type = [int]$inifile["MA_Filter_2_Type"]
+    $MA_Filter_3_Type = [int]$inifile["MA_Filter_3_Type"]
+    if (($ZZ_Type -eq 0) -and ($MA_Filter_1_Type -eq 0) -and ($MA_Filter_2_Type -eq 0) -and ($MA_Filter_3_Type -eq 0)) {
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+            VolMA_Type = "0"
+        }
+    }
+
+    #If not Enabled, Don't use for open
+    $DirChange_Type = [int]$inifile["DirChange_Type"]
+    if ($DirChange_Type -eq 0) {
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+            DirChange_OpenOn = "0"
+        }
+    }
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "DirChange" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "BigCandle" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillators" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillator2" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillator3" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "IdentifyTrend" -EnableTypeMode "Enable"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "TDI" -EnableTypeMode "Mode"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "MACD" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "MACD2" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "ADX" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "DTrend" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "PSar" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "MA_Filter_1" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "MA_Filter_2" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "MA_Filter_3" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "ZZ" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "VolFilter" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "FIBO" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "FIB2" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy1" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy2" -EnableTypeMode "Type"
+    IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy3" -EnableTypeMode "Type"
+
+    return $true
+}
+
+# Apply Datetime
+function ButtonDateTime {
+    Param(
+        [string]$FilePath
+    )
+
     #http://www.timezoneconverter.com/cgi-bin/zoneinfo
     #
     #https://forex.timezoneconverter.com/?timezone=Europe/Helsinki;
@@ -510,7 +616,7 @@ function MyDefault {
     #Singapore  2:00    10:00
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "ASIA(Tokyo/Hong Kong/Singapore)" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / ASIA ====="
                 EveryDay_StartHour         = "2"
                 EveryDay_StartMinute       = "0"
@@ -555,7 +661,7 @@ function MyDefault {
     #London     10:00   18:00 (Europe/Helsinki)
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "EUROPA(Frankfurt/London)" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / EUROPA ====="
                 EveryDay_StartHour         = "9"
                 EveryDay_StartMinute       = "0"
@@ -600,7 +706,7 @@ function MyDefault {
     #Chicago    16:00   24:00
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "AMERICA(New York/Chicago)" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / AMERICA ====="
                 EveryDay_StartHour         = "15"
                 EveryDay_StartMinute       = "0"
@@ -644,7 +750,7 @@ function MyDefault {
     #Sidney     1:00    9:00 (Europe/Helsinki)
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "PACIFICO(Wellington/Sidney)" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / PACIFICO ====="
                 EveryDay_StartHour         = "1"
                 EveryDay_StartMinute       = "0"
@@ -687,7 +793,7 @@ function MyDefault {
     #DateTime-EUR/USD Time
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "DateTime-EUR/USD" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / EUR/USD ====="
                 EveryDay_StartHour         = "0"
                 EveryDay_StartMinute       = "5"
@@ -730,7 +836,7 @@ function MyDefault {
     #DateTime-XAU/USD Time
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "DateTime-XAU/USD" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / XAU/USD ====="
                 EveryDay_StartHour         = "1"
                 EveryDay_StartMinute       = "5"
@@ -782,7 +888,7 @@ function MyDefault {
     #MyDefault-EUR/USD Time
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "MyDefault-EUR/USD" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / EUR/USD ====="
                 EveryDay_StartHour         = "0"
                 EveryDay_StartMinute       = "5"
@@ -825,7 +931,7 @@ function MyDefault {
     #Default-AUD/USD Time
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "Default-AUD/USD" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 EveryDay_Properties        = "===== Every Day / AUD/USD ====="
                 EveryDay_StartHour         = "21"
                 EveryDay_StartMinute       = "0"
@@ -868,7 +974,7 @@ function MyDefault {
     #News Critical
     if (!($comboBox.SelectedIndex -eq "-1")) {
         if ($comboBox.SelectedItem.ToString() -eq "No Traded On Critical News" ) {
-            Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
                 # ; News settings
                 News_Properties     = "===== News ====="
                 News_Mode           = "2"
@@ -887,99 +993,9 @@ function MyDefault {
             }
         }
     }
-    #Read All Setting File parameters
-    $inifile = Get-IniFile($FilePath)
 
-    #Pending_Type
-    #$Pending_Type = [int]$inifile["Pending_Type"]
-    #if ($Pending_Type -eq 0) {
-    #    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-    #        Show_Pending    = "false"
-    #    }
-    #}
-    #else {
-    #    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-    #        Show_Pending    = "true"
-    #    }
-    #}
-
-    #If not use StopLoss disable line
-    #$StopLoss = [int]$inifile["StopLoss"]
-    #$GlobalStopLoss = [int]$inifile["GlobalStopLoss"]
-    #$GlobalStopLoss_ccy = [int]$inifile["GlobalStopLoss_ccy"]
-    #if (($StopLoss -eq 0) -and ($GlobalStopLoss -eq 0) -and ($GlobalStopLoss_ccy -eq 0)) {
-    #    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-    #        StopLoss_Width = "0"
-    #    }
-    #}
-    #else {
-    #    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-    #        StopLoss_Width = "2"
-    #    }
-    #}
-
-
-    #The stop level: This can be considered as a normal stop loss. When you add a trailing stop to an open position, your trailing stop is not active immediately. The market needs to move in your favour by the step distance for the trailing stop to be activated. If the market moves far enough against you before your trailing stop is activated, your position will be closed at this stop level.
-    #The stop distance: This will be the distance between your trailing stop and the market level once your trailing stop is activated. The trailing stop will maintain this stop distance as it tracks the market.
-    #The step distance: This is the number of points the market needs to move in your favour for the trailing stop to be adjusted upward or downward, depending on whether you are going long or short.
-    #ATR disable is not used
-    $Pending_Distance_ModeP = [int]$inifile["Pending_Distance_ModeP"]
-    $StopLoss_ModeP = [int]$inifile["StopLoss_ModeP"]
-    $TakeProfit_ModeP = [int]$inifile["TakeProfit_ModeP"]
-    $MinProfitToClose_ModeP = [int]$inifile["MinProfitToClose_ModeP"]
-    $TrailingStop_ModeP = [int]$inifile["TrailingStop_ModeP"]
-    $Martingail_ModeP = [int]$inifile["Martingail_ModeP"]
-    $AntiMartingail_ModeP = [int]$inifile["AntiMartingail_ModeP"]
-    $AntiStopLoss_ModeP = [int]$inifile["AntiStopLoss_ModeP"]
-    if (($Pending_Distance_ModeP -eq 0) -and ($StopLoss_ModeP -eq 0) -and ($TakeProfit_ModeP -eq 0) -and ($MinProfitToClose_ModeP -eq 0) -and ($TrailingStop_ModeP -eq 0) -and ($Martingail_ModeP -eq 0) -and ($AntiMartingail_ModeP -eq 0) -and ($AntiStopLoss_ModeP -eq 0)) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-            VolPV_Type = "0"
-        }
-    }
-
-    #ZigZag AND (MA_Filter 1 2 && 3) Distance
-    $ZZ_Type = [int]$inifile["ZZ_Type"]
-    $MA_Filter_1_Type = [int]$inifile["MA_Filter_1_Type"]
-    $MA_Filter_2_Type = [int]$inifile["MA_Filter_2_Type"]
-    $MA_Filter_3_Type = [int]$inifile["MA_Filter_3_Type"]
-    if (($ZZ_Type -eq 0) -and ($MA_Filter_1_Type -eq 0) -and ($MA_Filter_2_Type -eq 0) -and ($MA_Filter_3_Type -eq 0)) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-            VolMA_Type = "0"
-        }
-    }
-
-    #If not Enabled, Don't use for open
-    $DirChange_Type = [int]$inifile["DirChange_Type"]
-    if ($DirChange_Type -eq 0) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-            DirChange_OpenOn = "0"
-        }
-    }
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "DirChange" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "BigCandle" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillators" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillator2" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "Oscillator3" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "IdentifyTrend" -EnableTypeMode "Enable"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "TDI" -EnableTypeMode "Mode"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "MACD" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "MACD2" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "ADX" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "DTrend" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "PSar" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "MA_Filter_1" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "MA_Filter_2" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "MA_Filter_3" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "ZZ" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "VolFilter" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "FIBO" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "FIB2" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy1" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy2" -EnableTypeMode "Type"
-    IndicatorIfNotValidOption -FilePath $FilePath -indy "CustomIndy3" -EnableTypeMode "Type"
-
-    return $true
 }
+
 
 # Rename Setting File
 function ButtonRename {
@@ -1311,7 +1327,7 @@ function Button2EMACross_1 {
         [string]$FilePath
     )
 
-    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
         MACD_Properties      = "===== 2 EMA Cross #1 ====="
         MACD_Type            = "1"
         MACD_TF              = "5"
@@ -1341,7 +1357,7 @@ function Button2EMACross_2 {
         [string]$FilePath
     )
 
-    Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
         MACD2_Properties      = "===== 2 EMA Cross #2 ====="
         MACD2_Type            = "1"
         MACD2_TF              = "5"
@@ -1499,7 +1515,7 @@ function ButtonCustomIndy_X {
     #SetIndexBuffer(7,Middle,INDICATOR_CALCULATIONS);
     #SetIndexBuffer(8,trend,INDICATOR_CALCULATIONS);
     if ($Name -eq "SuperTrend" ) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $CustomIndy_Label                = "SuperTrend"
             $CustomIndy_Type                 = "3"
             $CustomIndy_TF                   = "5"
@@ -1540,11 +1556,11 @@ function ButtonCustomIndy_X {
     #SetIndexBuffer(7,breakup ,INDICATOR_DATA); PlotIndexSetInteger(5,PLOT_ARROW,217); PlotIndexSetInteger(5,PLOT_ARROW_SHIFT,-10);
     #SetIndexBuffer(8,breakdn ,INDICATOR_DATA);
     if ($Name -eq "Bollinger bands breakout" ) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
-            CustomIndy_Label           = "Bollinger bands breakout"
-            CustomIndy_Type            = "3"
-            CustomIndy_TF              = "5"
-            CustomIndy_PathAndName     = "Bollinger bands breakout"
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+            CustomIndy_Label            = "Bollinger bands breakout"
+            CustomIndy_Type             = "3"
+            CustomIndy_TF               = "5"
+            CustomIndy_PathAndName      = "Bollinger bands breakout"
             $CustomIndy_ParametersStr   = "20,1,2.0,20.0,1"
             $CustomIndy_BufferB         = "7"
             $CustomIndy_BufferS         = "8"
@@ -1571,7 +1587,7 @@ function ButtonCustomIndy_X {
     #TrendLine PRO MT5
     #https://www.mql5.com/en/market/product/42399
     if ($Name -eq "TrendLine PRO MT5" ) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             CustomIndy_Label                 = "TrendLine"
             CustomIndy_Type                  = "3"
             CustomIndy_TF                    = "5"
@@ -1603,7 +1619,7 @@ function ButtonCustomIndy_X {
     #HMA Color with Alerts MT5
     #https://www.mql5.com/en/market/product/27341
     if ($Name -eq "HMA Color with Alerts MT5" ) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $CustomIndy_Label                = "HMA Color"
             $CustomIndy_Type                 = "3"
             $CustomIndy_TF                   = "5"
@@ -1635,7 +1651,7 @@ function ButtonCustomIndy_X {
     #HMA Color with Alerts MT5
     #https://www.mql5.com/en/market/product/27341
     if ($Name -eq "HMA Color with Alerts MT5" ) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $CustomIndy_Label                = "HMA Color"
             $CustomIndy_Type                 = "3"
             $CustomIndy_TF                   = "5"
@@ -1676,7 +1692,7 @@ function ButtonCustomIndy_X {
     #SetIndexBuffer(6,MA_PRICE_HIGH_Buffer,INDICATOR_CALCULATIONS);
     #SetIndexBuffer(7,MA_PRICE_LOW_Buffer,INDICATOR_CALCULATIONS);
     if ($Name -eq "Half Trend New Alert" ) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $CustomIndy_Properties           = "===== Half Trend #" + $Number + " ====="
             $CustomIndy_Label                = "Half Trend"
             $CustomIndy_Type                 = "3"
@@ -1710,7 +1726,7 @@ function ButtonCustomIndy_X {
 
     #Disable Custom Indicator
     if ($Name -eq "DisableCustomIndy" ) {
-        Set-OrAddIniValue -FilePath $FilePath  -keyValueList @{
+        Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
             $CustomIndy_Properties           = "===== Custom Indy #" + $Number + " ====="
             $CustomIndy_Label                = "Custom Indicator"
             $CustomIndy_Type                 = "0"
@@ -1845,6 +1861,356 @@ function ButtonConvertToGRID {
     ConvertToGRID -FilePath $FilePath -indy "CustomIndy3"
 }
 
+#Convert Point EUR/USD to XAU/USD
+function ButtonConvertPoint {
+    Param(
+        [string]$FilePath
+    )
+
+    #Only parameter in Points
+    ConvertPointMulti -FilePath $FilePath -Propertie "AllowHedge_AfterPoints" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "StopLoss" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "StopLoss_MinSize" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "TakeProfit" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "TrailingStop" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "TrailingStep" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "TrailingStopAfter" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "PipStep" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "MinStepSize" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "MaxStepSize" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "BreakEven_MinProfit" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "AntiPipStep" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "AntiMinStepSize" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "AntiMaxStepSize" -Multi 10
+    ConvertPointMulti -FilePath $FilePath -Propertie "AntiStopLoss_MinSize" -Multi 10
+}
+
+#Convertir los points, multiplicandolo por un valor
+function ConvertPointMulti {
+    Param(
+        [string]$FilePath,
+        [string]$Propertie,
+        [int]$Multi
+    )
+
+    #Read All Setting File parameters
+    $inifile = Get-IniFile -FilePath $FilePath
+
+    $Value = [int]$inifile[$Propertie]
+    $Value = $Value * $Multi
+    Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+        $Propertie = $Value
+    }
+}
+
+#https://ftmo.com/es/#evaluation-process
+#https://ftmo.com/en/#evaluation-process
+# Configurar estrategia para el manejo del riesgo de FTMO
+function ButtonFTMO {
+    Param(
+        [string]$FilePath,
+        [string]$Risk,
+        [string]$Balance
+    )
+
+    if ($checkbox.Checked -eq $True) {
+        $fileNewName = "-FTMO"
+        $fileNewName = $fileNewName.Substring(0, $fileNewName.Length)
+        $PathDest = (Get-Item $FilePath).BaseName + $fileNewName + ".set"
+        $CurrentDir = Split-Path -Path "$FilePath"
+        Copy-Item "$FilePath" -Destination "$CurrentDir\$PathDest"
+        $FilePath = "$CurrentDir\$PathDest"
+    }
+
+    #Read All Setting File parameters
+    $inifile = Get-IniFile -FilePath $FilePath
+    $SetDescription = [int]$inifile["SetDescription"]
+
+    if ($Risk -eq "Normal") {
+        if ($Balance -eq "10000") {
+            =
+            #Max trades per day (current symbol)
+            #FTMO
+            #Maximum Daily Loss $500
+            #Maximum Loss $1,000
+            #Profit Target $1,000
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Normal 10.000"
+                "MaxFloatingLoss"               = "500"
+                "GlobalAccountStopLoss_ccy"     = "500"
+                "GlobalAccountTakeProfit_ccy"   = "1000"
+                "GlobalAccountTargetProfit_ccy" = "1000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "500"
+                "DL_MaxProfit_ccy"              = "1000"
+                "WL_MaxProfit_ccy"              = "1000"
+                "ML_MaxProfit_ccy"              = "1000"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+        if ($Balance -eq "25000") {
+            #FTMO
+            #Maximum Daily Loss 1250
+            #Maximum Loss  2500
+            #Profit Target 2500
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Normal 25.000"
+                "MaxFloatingLoss"               = "1250"
+                "GlobalAccountStopLoss_ccy"     = "1250"
+                "GlobalAccountTakeProfit_ccy"   = "2500"
+                "GlobalAccountTargetProfit_ccy" = "2500"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "1250"
+                "DL_MaxProfit_ccy"              = "2500"
+                "WL_MaxProfit_ccy"              = "2500"
+                "ML_MaxProfit_ccy"              = "2500"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+        if ($Balance -eq "50000") {
+            #FTMO
+            #Maximum Daily Loss 2500
+            #Maximum Loss 5000
+            #Profit Target 5000
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Normal 50.000"
+                "MaxFloatingLoss"               = "2500"
+                "GlobalAccountStopLoss_ccy"     = "2500"
+                "GlobalAccountTakeProfit_ccy"   = "5000"
+                "GlobalAccountTargetProfit_ccy" = "5000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "2500"
+                "DL_MaxProfit_ccy"              = "5000"
+                "WL_MaxProfit_ccy"              = "5000"
+                "ML_MaxProfit_ccy"              = "5000"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+        if ($Balance -eq "100000") {
+            #FTMO
+            #Maximum Daily Loss 5000
+            #Maximum Loss 10000
+            #Profit Target 10000
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Normal 100.000"
+                "MaxFloatingLoss"               = "5000"
+                "GlobalAccountStopLoss_ccy"     = "5000"
+                "GlobalAccountTakeProfit_ccy"   = "10000"
+                "GlobalAccountTargetProfit_ccy" = "10000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "5000"
+                "DL_MaxProfit_ccy"              = "10000"
+                "WL_MaxProfit_ccy"              = "10000"
+                "ML_MaxProfit_ccy"              = "10000"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+    }
+    elseif ($Risk -eq "Aggressive") {
+        if ($Balance -eq "10000") {
+            #FTMO
+            #Maximum Daily Loss 1000
+            #Maximum Loss 2000
+            #Profit Target 2000
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Aggressive 10000"
+                "MaxFloatingLoss"               = "1000"
+                "GlobalAccountStopLoss_ccy"     = "1000"
+                "GlobalAccountTakeProfit_ccy"   = "2000"
+                "GlobalAccountTargetProfit_ccy" = "2000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "1000"
+                "DL_MaxProfit_ccy"              = "2000"
+                "WL_MaxProfit_ccy"              = "2000"
+                "ML_MaxProfit_ccy"              = "2000"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+        if ($Balance = = "25000") {
+            #FTMO
+            #Maximum Daily Loss 2500
+            #Maximum Loss 5000
+            #Profit Target 5000
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Aggressive 25.000"
+                "MaxFloatingLoss"               = "2500"
+                "GlobalAccountStopLoss_ccy"     = "2500"
+                "GlobalAccountTakeProfit_ccy"   = "5000"
+                "GlobalAccountTargetProfit_ccy" = "5000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "2500"
+                "DL_MaxProfit_ccy"              = "5000"
+                "WL_MaxProfit_ccy"              = "5000"
+                "ML_MaxProfit_ccy"              = "5000"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+        if ($Balance = = "50000") {
+            #FTMO
+            #Maximum Daily Loss 5000
+            #Maximum Loss 10000
+            #Profit Target 10000
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Aggressive 50.000"
+                "MaxFloatingLoss"               = "5000"
+                "GlobalAccountStopLoss_ccy"     = "5000"
+                "GlobalAccountTakeProfit_ccy"   = "10000"
+                "GlobalAccountTargetProfit_ccy" = "10000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "5000"
+                "DL_MaxProfit_ccy"              = "10000"
+                "WL_MaxProfit_ccy"              = "10000"
+                "ML_MaxProfit_ccy"              = "10000"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+        if ($Balance = = "100000") {
+            #FTMO
+            #Maximum Daily Loss 10000
+            #Maximum Loss 20000
+            #Profit Target 20000
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Aggressive 100.000"
+                "MaxFloatingLoss"               = "10000"
+                "GlobalAccountStopLoss_ccy"     = "10000"
+                "GlobalAccountTakeProfit_ccy"   = "20000"
+                "GlobalAccountTargetProfit_ccy" = "20000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "10000"
+                "DL_MaxProfit_ccy"              = "20000"
+                "WL_MaxProfit_ccy"              = "20000"
+                "ML_MaxProfit_ccy"              = "20000"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+        return $true
+    }
+    else {
+        return $false
+    }
+}
+
+#https://fundingpips.com/
+# Configurar estrategia para el manejo del riesgo de "Funding Pips"
+function ButtonFundingPips {
+    Param(
+        [string]$FilePath,
+        [string]$Risk,
+        [string]$Balance
+    )
+
+    if ($checkbox.Checked -eq $True) {
+        $fileNewName = "-FundingPips"
+        $fileNewName = $fileNewName.Substring(0, $fileNewName.Length)
+        $PathDest = (Get-Item $FilePath).BaseName + $fileNewName + ".set"
+        $CurrentDir = Split-Path -Path "$FilePath"
+        Copy-Item "$FilePath" -Destination "$CurrentDir\$PathDest"
+        $FilePath = "$CurrentDir\$PathDest"
+    }
+
+    #Read All Setting File parameters
+    $inifile = Get-IniFile -FilePath $FilePath
+    $SetDescription = [int]$inifile["SetDescription"]
+
+    if ($Risk -eq "Student") {
+        if ($Balance -eq "10000") {
+            #Funding Pips
+            #8% Profit Target ($800)
+            #10% Max Overall Loss  ($1000)
+            #5% Max Daily Loss ($500)
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Student 10.000"
+                "MaxFloatingLoss"               = "500"
+                "GlobalAccountStopLoss_ccy"     = "1000"
+                "GlobalAccountTakeProfit_ccy"   = "800"
+                "GlobalAccountTargetProfit_ccy" = "800"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "500"
+                "DL_MaxProfit_ccy"              = "800"
+                "WL_MaxProfit_ccy"              = "800"
+                "ML_MaxProfit_ccy"              = "800"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+    }elseif ($Risk -eq "Practitioner") {
+        if ($Balance -eq "10000") {
+            #Funding Pips
+            #5% Profit Target ($500)
+            #10% Max Overall Loss  ($1000)
+            #5% Max Daily Loss ($500)
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Practitioner 10.000"
+                "MaxFloatingLoss"               = "500"
+                "GlobalAccountStopLoss_ccy"     = "1000"
+                "GlobalAccountTakeProfit_ccy"   = "800"
+                "GlobalAccountTargetProfit_ccy" = "800"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "500"
+                "DL_MaxProfit_ccy"              = "500"
+                "WL_MaxProfit_ccy"              = "500"
+                "ML_MaxProfit_ccy"              = "500"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+
+    }
+    elseif ($Risk -eq "Master") {
+        if ($Balance -eq "10000") {
+            #Funding Pips
+            #Profit Target (-)
+            #10% Max Overall Loss  ($1000)
+            #5% Max Daily Loss ($500)
+            Set-OrAddIniValue -FilePath $FilePath -keyValueList @{
+                "SetDescription"                = $SetDescription + "Master 10.000"
+                "MaxFloatingLoss"               = "500"
+                "GlobalAccountStopLoss_ccy"     = "1000"
+                "GlobalAccountStopTillTomorrow" = "true"
+                "DL_MaxDrawDown_ccy"            = "500"
+                "CL_WeekStart_Day"              = "1"
+                "CL_DayStartHour"               = "0"
+                "CL_CloseOnProfitAndDD"         = "true"
+            }
+        }
+
+    }
+
+}
+
+#https://www.metatrader5.com/en/terminal/help/start_advanced/start
+#https://www.mql5.com/en/forum/127577/page2
+#https://www.metatrader5.com/en/terminal/help/start_advanced/structure
+function ButtonStartTester {
+    Param(
+        [string]$FilePath,
+        [string]$LoginAccount
+    )
+    $path_to_platform="c:\Program Files\RoboForex - MetaTrader 5\"
+    $DATA_FOLDER="9EB2973C469D24060397BB5158EA73A5"
+    $platform_data_directory="$env:USERPROFILE\AppData\Roaming\MetaQuotes\Terminal\$DATA_FOLDER\"
+    Copy-Item "$FilePath" -Destination "$platform_data_directory\MQL5\Profiles\Tester\CP.set"
+    Start-Process -FilePath "$path_to_platform\terminal64.exe" -ArgumentList "/config:$PSScriptRoot\config.ini"
+
+}
 #######################GUI################################################################
 ### API Windows Forms ###
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
@@ -1852,8 +2218,8 @@ function ButtonConvertToGRID {
 
 ### Create form ###
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "My Defaults, Rename Setting File and Create Indicators - CommunityPower EA"
-$form.Size = '750,500'
+$form.Text = "ToolBox - CommunityPower EA"
+$form.Size = '900,500'
 $form.StartPosition = "CenterScreen"
 $form.MinimumSize = $form.Size
 $form.MaximizeBox = $False
@@ -1896,6 +2262,43 @@ $comboBox3.AutoCompleteSource = 'ListItems'
 $comboBox3.AutoCompleteMode = 'Append'
 $comboBox3.Items.AddRange( @("", "DisableCustomIndy", "SuperTrend", "TrendLine PRO MT5", "HMA Color with Alerts MT5", "Bollinger bands breakout", "Half Trend New Alert"))
 
+#https://ftmo.com/es/#evaluation-process
+# Combobox FTMO
+$comboBox41 = New-Object System.Windows.Forms.ComboBox
+$comboBox41.Location = '320,240'
+$comboBox41.Size = '80,50'
+$comboBox41.DropDownStyle = 'DropDownList'
+$comboBox41.AutoCompleteSource = 'ListItems'
+$comboBox41.AutoCompleteMode = 'Append'
+$comboBox41.Items.AddRange( @("Normal", "Aggressive"))
+
+# Combobox FTMO
+$comboBox42 = New-Object System.Windows.Forms.ComboBox
+$comboBox42.Location = '400,240'
+$comboBox42.Size = '100,50'
+$comboBox42.DropDownStyle = 'DropDownList'
+$comboBox42.AutoCompleteSource = 'ListItems'
+$comboBox42.AutoCompleteMode = 'Append'
+$comboBox42.Items.AddRange( @("10000", "25000", "50000", "100000"))
+
+#https://fundingpips.com/
+# Combobox FundingPips
+$comboBox51 = New-Object System.Windows.Forms.ComboBox
+$comboBox51.Location = '350,260'
+$comboBox51.Size = '70,50'
+$comboBox51.DropDownStyle = 'DropDownList'
+$comboBox51.AutoCompleteSource = 'ListItems'
+$comboBox51.AutoCompleteMode = 'Append'
+$comboBox51.Items.AddRange( @("Student", "Practitioner", "Master"))
+
+# Combobox FundingPips
+$comboBox52 = New-Object System.Windows.Forms.ComboBox
+$comboBox52.Location = '420,260'
+$comboBox52.Size = '80,60'
+$comboBox52.DropDownStyle = 'DropDownList'
+$comboBox52.AutoCompleteSource = 'ListItems'
+$comboBox52.AutoCompleteMode = 'Append'
+$comboBox52.Items.AddRange( @("10000", "25000", "50000", "100000"))
 
 
 #https://forex-station.com/viewtopic.php?f=579495&t=8413842
@@ -1906,6 +2309,13 @@ $button = New-Object System.Windows.Forms.Button
 $button.Location = '5,10'
 $button.Size = '200,20'
 $button.Text = "My Defaults"
+
+# Button Apply DateTime
+$button1 = New-Object System.Windows.Forms.Button
+$button1.Location = '580,10'
+$button1.Size = '120,20'
+$button1.Text = "Apply Datetime"
+
 
 # Button
 $button2 = New-Object System.Windows.Forms.Button
@@ -2023,36 +2433,86 @@ $button18.Location = '280,180'
 $button18.Size = '120,20'
 $button18.Text = "Convert to GRID Strategy"
 
-# Label
+# Button Convert Point EUR/USD->XAU/USD
+$button19 = New-Object System.Windows.Forms.Button
+$button19.Location = '280,200'
+$button19.Size = '200,20'
+$button19.Text = "Convert Point EUR/USD->XAU/USD"
+
+# Button FTMO
+$button20 = New-Object System.Windows.Forms.Button
+$button20.Location = '510,240'
+$button20.Size = '80,20'
+$button20.Text = "Apply FTMO"
+
+# Button FundingPips
+$button21 = New-Object System.Windows.Forms.Button
+$button21.Location = '510,260'
+$button21.Size = '120,20'
+$button21.Text = "Apply FundingPips"
+
+# Button FundingPips
+$button22 = New-Object System.Windows.Forms.Button
+$button22.Location = '220,40'
+$button22.Size = '160,20'
+$button22.Text = "Strategy Tester + Report"
+
+
+# Label 0
 $label = New-Object System.Windows.Forms.Label
 $label.Location = '220,12'
 $label.AutoSize = $True
 $label.Text = "Date Time:"
 
-# Label
+# Label 1
 $label1 = New-Object System.Windows.Forms.Label
 $label1.Location = '280,100'
 $label1.AutoSize = $True
 $label1.Text = "CustomIndy #1:"
 
-# Label
+# Label 2
 $label2 = New-Object System.Windows.Forms.Label
 $label2.Location = '280,120'
 $label2.AutoSize = $True
 $label2.Text = "CustomIndy #2:"
 
-# Label
+# Label 23
 $label23 = New-Object System.Windows.Forms.Label
 $label23.Location = '280,140'
 $label23.AutoSize = $True
 $label23.Text = "CustomIndy #3:"
 
-
-# Label
+# Label 3
 $label3 = New-Object System.Windows.Forms.Label
 $label3.Location = '5,380'
 $label3.AutoSize = $True
 $label3.Text = "Drag and Drop files settings here:"
+
+# Label 4
+$label4 = New-Object System.Windows.Forms.Label
+$label4.Location = '280,240'
+$label4.AutoSize = $True
+$label4.Text = "FTMO:"
+
+# Label 4
+$label5 = New-Object System.Windows.Forms.Label
+$label5.Location = '280,260'
+$label5.AutoSize = $True
+$label5.Text = "FundingPips:"
+
+# Checkbox
+$checkbox = New-Object System.Windows.Forms.Checkbox
+$checkbox.Location = '600,240'
+$checkbox.AutoSize = $True
+$checkbox.Checked = $True
+$checkbox.Text = "Copy & Rename To FTMO"
+
+# Checkbox
+$checkbox2 = New-Object System.Windows.Forms.Checkbox
+$checkbox2.Location = '640,260'
+$checkbox2.AutoSize = $True
+$checkbox2.Checked = $True
+$checkbox2.Text = "Copy & Rename To FundindPips"
 
 # Listbox
 $listBox = New-Object System.Windows.Forms.ListBox
@@ -2069,6 +2529,7 @@ $statusBar.Text = "Ready"
 ## Add controls to form ###
 $form.SuspendLayout()
 $form.Controls.Add($button)
+$form.Controls.Add($button1)
 $form.Controls.Add($button2)
 $form.Controls.Add($button3)
 $form.Controls.Add($button4)
@@ -2088,17 +2549,29 @@ $form.Controls.Add($button163)
 $form.Controls.Add($buttonX)
 $form.Controls.Add($button17)
 $form.Controls.Add($button18)
+$form.Controls.Add($button19)
+$form.Controls.Add($button20)   #FTMO
+$form.Controls.Add($button21)   #fundingpips
+$form.Controls.Add($button22)   #Start Terminal
 $form.Controls.Add($label)
 $form.Controls.Add($label1)
 $form.Controls.Add($label2)
 $form.Controls.Add($label23)
 $form.Controls.Add($label3)
+$form.Controls.Add($label4) #FTMO
+$form.Controls.Add($label5) #fundingpips
+$form.Controls.Add($checkbox)
+$form.Controls.Add($checkbox2)
 $form.Controls.Add($listBox)
 $form.Controls.Add($statusBar)
 $form.Controls.Add($comboBox)
 $form.Controls.Add($comboBox1)
 $form.Controls.Add($comboBox2)
 $form.Controls.Add($comboBox3)
+$form.Controls.Add($comboBox41) #FTMO
+$form.Controls.Add($comboBox42) #FTMO
+$form.Controls.Add($comboBox51) #FundingPips
+$form.Controls.Add($comboBox52) #FundingPips
 $form.ResumeLayout()
 
 ### Write event handlers ###
@@ -2107,7 +2580,7 @@ $button_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            $status, $error = MyDefault -filePath $item
+            $status, $error = MyDefault -FilePath $item
             if ($status) {
                 [System.Windows.Forms.MessageBox]::Show('Successful - ' + $button.Text, 'Defaults Values', 0, 64)
                 $statusBar.Text = "Successful Setting MyDefaults"
@@ -2120,12 +2593,26 @@ $button_Click = {
     }
 }
 
+# Apply DateTime
+$button1_Click = {
+    foreach ($item in $listBox.Items) {
+        $i = Get-Item -LiteralPath $item
+        if (!($i -is [System.IO.DirectoryInfo])) {
+            $status, $error = ButtonDateTime -FilePath $item
+            if ($status) {
+                [System.Windows.Forms.MessageBox]::Show('Successful - ' + $button.Text, 'DateTime', 0, 64)
+                $statusBar.Text = "Successful Apply DateTime"
+            }
+        }
+    }
+}
+
 #Rename
 $button2_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonRename -filePath $item) {
+            if (ButtonRename -FilePath $item) {
                 [System.Windows.Forms.MessageBox]::Show('Successful Renamed', 'Rename', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) files renamed")
             }
@@ -2143,7 +2630,7 @@ $button4_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (Button2EMACross_1 -filePath $item) {
+            if (Button2EMACross_1 -FilePath $item) {
                 [System.Windows.Forms.MessageBox]::Show('MA cross signal #1 Applied', 'MA cross signal #1', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) MA cross signal #1 Applied")
             }
@@ -2156,7 +2643,7 @@ $button5_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (Button2EMACross_2 -filePath $item) {
+            if (Button2EMACross_2 -FilePath $item) {
                 [System.Windows.Forms.MessageBox]::Show('MA cross signal #2 Applied', 'MA cross signal #2', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) MA cross signal #2 Applied")
             }
@@ -2325,7 +2812,7 @@ $button17_Click = {
     foreach ($item in $listBox.Items) {
         $i = Get-Item -LiteralPath $item
         if (!($i -is [System.IO.DirectoryInfo])) {
-            if (ButtonDetectGRID -filePath $item) {
+            if (ButtonDetectGRID -FilePath $item) {
                 [System.Windows.Forms.MessageBox]::Show('Strategy GRID', 'Strategy GRID', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) Strategy GRID")
             }
@@ -2344,10 +2831,71 @@ $button18_Click = {
         if (!($i -is [System.IO.DirectoryInfo])) {
             $Result = [System.Windows.Forms.MessageBox]::Show('Are you sure you want to convert the strategy to GRID?', 'Convert Strategy to GRID?', 4, 32)
             if ($Result -eq 6) {
-                ButtonConvertToGRID -filePath $item
+                ButtonConvertToGRID -FilePath $item
                 [System.Windows.Forms.MessageBox]::Show('Strategy converted to GRID', 'Strategy converted GRID', 0, 64)
                 $statusBar.Text = ("$($listBox.Items.Count) Strategy converted to GRID")
             }
+        }
+    }
+}
+
+# Convert Point EUR/USD->XAU/USD
+$button19_Click = {
+    foreach ($item in $listBox.Items) {
+        $i = Get-Item -LiteralPath $item
+        if (!($i -is [System.IO.DirectoryInfo])) {
+            $Result = [System.Windows.Forms.MessageBox]::Show('Are you sure you want to convert Point EUR/USD->XAU/USD?', 'Convert Point EUR/USD->XAU/USD?', 4, 32)
+            if ($Result -eq 6) {
+                ButtonConvertPoint -FilePath $item
+                [System.Windows.Forms.MessageBox]::Show('Convert Point EUR/USD->XAU/USD', 'Convert Point EUR/USD->XAU/USD', 0, 64)
+                $statusBar.Text = ("$($listBox.Items.Count) Convert Point EUR/USD->XAU/USD")
+            }
+        }
+    }
+}
+
+# FTMO
+$button20_Click = {
+    foreach ($item in $listBox.Items) {
+        $i = Get-Item -LiteralPath $item
+        if (!($i -is [System.IO.DirectoryInfo])) {
+            $Result = [System.Windows.Forms.MessageBox]::Show('Are you sure you want to apply FTMO Strategy?', 'FTMO Strategy', 4, 32)
+            if ($Result -eq 6) {
+                if (ButtonFTMO -FilePath $item -Risk $comboBox41.SelectedItem.ToString() -Balance $comboBox42.SelectedItem.ToString()) {
+                    [System.Windows.Forms.MessageBox]::Show('FTMO Strategy', 'FTMO Strategy', 0, 64)
+                    $statusBar.Text = ("$($listBox.Items.Count) FTMO Strategy")
+                }
+            }
+        }
+    }
+}
+
+# FundingPips
+$button21_Click = {
+    foreach ($item in $listBox.Items) {
+        $i = Get-Item -LiteralPath $item
+        if (!($i -is [System.IO.DirectoryInfo])) {
+            $Result = [System.Windows.Forms.MessageBox]::Show('Are you sure you want to apply FundingPips?', 'FundingPips', 4, 32)
+            if ($Result -eq 6) {
+                if (ButtonFundingPips -FilePath $item -Risk $comboBox51.SelectedItem.ToString() -Balance $comboBox52.SelectedItem.ToString()) {
+                    [System.Windows.Forms.MessageBox]::Show('FundingPips', 'FundingPips', 0, 64)
+                    $statusBar.Text = ("$($listBox.Items.Count) FundingPips")
+                }
+            }
+        }
+    }
+}
+
+# Start Terminal.exe
+$button22_Click = {
+    foreach ($item in $listBox.Items) {
+        $i = Get-Item -LiteralPath $item
+        if (!($i -is [System.IO.DirectoryInfo])) {
+            if (ButtonStartTester -FilePath $item -LoginAccount "3718393") {
+                [System.Windows.Forms.MessageBox]::Show('Start Tester', 'Start Tester', 0, 64)
+                $statusBar.Text = ("$($listBox.Items.Count) Start Tester")
+            }
+
         }
     }
 }
@@ -2370,9 +2918,9 @@ $listBox_DragDrop = [System.Windows.Forms.DragEventHandler] {
     $statusBar.Text = ("List contains $($listBox.Items.Count) items")
 }
 
-
 ### Wire up events ###
 $button.Add_Click($button_Click)
+$button1.Add_Click($button1_Click)
 $button2.Add_Click($button2_Click)
 $button3.Add_Click($button3_Click)
 $button4.Add_Click($button4_Click)
@@ -2393,9 +2941,13 @@ $button163.Add_Click($button163_Click)
 #GRID
 $button17.Add_Click($button17_Click)
 $button18.Add_Click($button18_Click)
+#Convert Points
+$button19.Add_Click($button19_Click)
+$button20.Add_Click($button20_Click)    #FTMO
+$button21.Add_Click($button21_Click)    #FundingPips
+$button22.Add_Click($button22_Click)    #Tester
 $listBox.Add_DragOver($listBox_DragOver)
 $listBox.Add_DragDrop($listBox_DragDrop)
-
 
 #### Show form ###
 [void] $form.ShowDialog()
